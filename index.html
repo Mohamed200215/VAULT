@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VAULT | High-End Sneaker Marketplace</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#131313",
+              surface: "#131313",
+              "surface-dim": "#131313",
+              "surface-bright": "#393939",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-container-low": "#1b1c1c",
+              "surface-container": "#1f2020",
+              "surface-container-high": "#2a2a2a",
+              "surface-container-highest": "#353535",
+              "surface-variant": "#353535",
+              "on-surface": "#e4e2e1",
+              "on-surface-variant": "#c6c4d9",
+              primary: "#c0c1ff",
+              "on-primary": "#0c00aa",
+              "primary-container": "#2f2fe4",
+              "on-primary-container": "#bdbfff",
+              secondary: "#c6c6c7",
+              "on-secondary": "#2f3131",
+              outline: "#908fa2"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              base: "4px",
+              "margin-desktop": "64px",
+              "margin-mobile": "16px",
+              "section-gap": "128px",
+              gutter: "24px"
+            },
+            fontFamily: {
+              "headline-md": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-lg": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-display": ["Designer", "Bebas Neue", "sans-serif"],
+              "body-md": ["Aero Matics", "Designer", "Hanken Grotesk", "sans-serif"],
+              "data-mono": ["JetBrains Mono", "monospace"],
+              "label-caps": ["Designer", "Hanken Grotesk", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Designer';
+        src: local('Designer'),
+             local('Designer Regular'),
+             url('./Designer.otf') format('opentype'),
+             url('./Designer (3).otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Aero Matics';
+        src: local('Aero Matics Light Italic'),
+             local('Aero Matics Light'),
+             url('./Aero Matics Light Italic.ttf') format('truetype');
+        font-weight: 300;
+        font-style: italic;
+        font-display: swap;
+      }
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        background-color: #0a0a0a;
+        color: #e4e2e1;
+        scroll-behavior: smooth;
+        font-family: 'Aero Matics', 'Designer', 'Hanken Grotesk', sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .neo-border {
+        border: 1px solid #333;
+      }
+      .text-display {
+        font-size: clamp(3rem, 8vw, 7.5rem);
+        line-height: 0.95;
+      }
+      .text-section-heading {
+        font-size: clamp(2rem, 4.5vw, 3rem);
+        line-height: 1;
+      }
+      .hero-title,
+      .text-section-heading,
+      .font-headline-display,
+      .font-headline-lg,
+      .font-headline-md,
+      .font-label-caps,
+      .font-body-md,
+      .font-data-mono {
+        font-family: 'Designer', 'Hanken Grotesk', sans-serif;
+      }
+      .hero-title {
+        font-weight: 700;
+      }
+      .text-card-heading {
+        font-size: 1.5rem;
+        line-height: 1.1;
+      }
+      .text-body {
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+      .vault-animation {
+        position: absolute;
+        inset: 0;
+        z-index: 25;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.9);
+        overflow: hidden;
+        animation: vault-overlay-fade 1.9s ease 0.28s forwards;
+      }
+      .vault-animation::before {
+        content: '';
+        position: absolute;
+        inset: 20%;
+        border-radius: 999px;
+        background: radial-gradient(circle at center, rgba(192, 193, 255, 0.35), transparent 48%);
+        opacity: 0;
+        animation: vault-flare 0.85s ease 0.12s forwards;
+      }
+      .vault-door {
+        position: absolute;
+        top: 6%;
+        bottom: 6%;
+        width: 52%;
+        background: linear-gradient(120deg, #111 0%, #1f1f28 40%, #131316 100%);
+        box-shadow: inset 0 0 58px rgba(0, 0, 0, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        overflow: hidden;
+      }
+      .vault-door::after {
+        content: '';
+        position: absolute;
+        inset: 18% 9%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 0 65px rgba(0, 0, 0, 0.22);
+      }
+      .vault-door.left {
+        left: 0;
+        transform: translateX(0) rotateY(0deg);
+        animation: vault-door-left 0.86s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+      .vault-door.right {
+        right: 0;
+        transform: translateX(0) rotateY(0deg);
+        animation: vault-door-right 0.86s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+      .vault-seal {
+        position: relative;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.95rem 3.2rem;
+        border: 1px solid rgba(192, 193, 255, 0.35);
+        background: rgba(16, 14, 24, 0.94);
+        backdrop-filter: blur(14px);
+        text-transform: uppercase;
+        letter-spacing: 0.55em;
+        font-family: 'Designer', sans-serif;
+        font-size: 1rem;
+        color: #c0c1ff;
+        opacity: 0;
+        transform: translateY(22px) scale(0.94);
+        animation: vault-seal-fade 0.72s ease 0.42s forwards, vault-seal-exit 0.42s ease 1.34s forwards;
+      }
+      @keyframes vault-door-left {
+        0% { transform: translateX(0) rotateY(0deg); }
+        20% { transform: translateX(-4%) rotateY(-0.8deg); }
+        70% { transform: translateX(-108%) rotateY(-3deg); }
+        100% { transform: translateX(-118%) rotateY(-5deg); }
+      }
+      @keyframes vault-door-right {
+        0% { transform: translateX(0) rotateY(0deg); }
+        20% { transform: translateX(4%) rotateY(0.8deg); }
+        70% { transform: translateX(108%) rotateY(3deg); }
+        100% { transform: translateX(118%) rotateY(5deg); }
+      }
+      @keyframes vault-seal-fade {
+        0% { opacity: 0; transform: translateY(22px) scale(0.94); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes vault-seal-exit {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        100% { opacity: 0; transform: translateY(-14px) scale(0.96); }
+      }
+      @keyframes vault-flare {
+        0% { opacity: 0; transform: scale(0.76); }
+        50% { opacity: 0.5; transform: scale(0.98); }
+        100% { opacity: 1; transform: scale(1.08); }
+      }
+      @keyframes vault-overlay-fade {
+        0% { opacity: 1; }
+        55% { opacity: 1; }
+        100% { opacity: 0; visibility: hidden; }
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .input-shell {
+        height: 3.25rem;
+        border: 1px solid #333;
+        background: transparent;
+        color: #e4e2e1;
+        transition: border-color 180ms ease, box-shadow 180ms ease;
+      }
+      .input-shell:focus {
+        outline: none;
+        border-color: #2f2fe4;
+        box-shadow: inset 0 0 0 1px #2f2fe4;
+      }
+      .site-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4rem;
+        height: 4rem;
+      }
+      .site-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .filter-active {
+        background: #2f2fe4 !important;
+        color: #000 !important;
+        border-color: #2f2fe4 !important;
+      }
+    </style>
+  </head>
+  <body class="font-body-md overflow-x-hidden">
+    <header class="fixed top-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/80 px-4 backdrop-blur-xl md:px-16 lg:px-20">
+      <div class="flex items-center gap-6 md:gap-8">
+        <a href="#" class="site-logo">
+          <img src="./VAULT.png" alt="VAULT logo" />
+        </a>
+        <nav class="hidden gap-6 md:flex">
+          <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+          <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="listings.html">Marketplace</a>
+          
+          <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="./about.html">About</a>
+        </nav>
+      </div>
+      <div class="mx-8 hidden max-w-md flex-1 lg:block">
+        <div class="relative flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-secondary">search</span>
+          <input class="input-shell w-full pl-10 pr-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Search sneakers, brands, drops..." type="text" />
+        </div>
+      </div>
+      <div class="flex items-center gap-4 md:gap-6">
+        <button id="cart-button" class="relative flex items-center text-on-surface-variant transition-colors duration-200 hover:text-primary" type="button" aria-label="Open cart">
+          <span class="material-symbols-outlined">local_mall</span>
+          <span id="cart-count" class="absolute -right-2 -top-2 hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-black">0</span>
+          <span class="ml-1 hidden font-label-caps text-[11px] uppercase tracking-[0.24em] md:inline">Cart</span>
+        </button>
+        <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
+          <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="pt-20">
+      <section class="relative flex min-h-[90vh] flex-col justify-end overflow-hidden">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <img class="min-h-full w-full object-contain object-center" alt="Air Jordan 7 Retro 'Miro' 2026" src="Air Jordan 7 Retro 'Miro' 2026.png" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+        </div>
+        <div class="vault-animation">
+          <div class="vault-door left"></div>
+          <div class="vault-door right"></div>
+          <div class="vault-seal">Vault opening</div>
+        </div>
+        <div class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-12 md:gap-8 md:px-8 lg:px-10 lg:pb-20">
+          <div class="md:col-span-7 md:pr-8">
+            <span class="mb-4 inline-flex border border-[#333] bg-background/70 px-3 py-1 font-label-caps text-[11px] uppercase tracking-[0.3em] text-secondary">Featured drop</span>
+            <h1 class="font-headline-display text-display uppercase leading-none text-[#4f9eff]">Air Jordan 7 Retro 'Miro' 2026</h1>
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+              <button id="place-bid-button" class="h-12 border border-white px-6 text-sm font-label-caps uppercase tracking-[0.24em] text-white transition-all duration-200 hover:bg-white hover:text-black" type="button">Place bid</button>
+            </div>
+          </div>
+          <div class="md:col-span-5">
+            <div class="neo-border w-full max-w-sm bg-surface/70 p-6 backdrop-blur-md md:ml-auto md:max-w-none">
+              <p class="mb-3 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Auction ends in</p>
+              <div class="grid grid-cols-3 gap-3" id="countdown">
+                <div class="border border-[#333] bg-background/70 p-3 text-center">
+                  <div class="font-headline-md text-[28px] leading-none text-primary" data-unit="days">04</div>
+                  <div class="mt-2 font-label-caps text-[10px] uppercase tracking-[0.24em] text-secondary">Days</div>
+                </div>
+                <div class="border border-[#333] bg-background/70 p-3 text-center">
+                  <div class="font-headline-md text-[28px] leading-none text-primary" data-unit="hours">22</div>
+                  <div class="mt-2 font-label-caps text-[10px] uppercase tracking-[0.24em] text-secondary">Hours</div>
+                </div>
+                <div class="border border-[#333] bg-background/70 p-3 text-center">
+                  <div class="font-headline-md text-[28px] leading-none text-primary" data-unit="minutes">51</div>
+                  <div class="mt-2 font-label-caps text-[10px] uppercase tracking-[0.24em] text-secondary">Minutes</div>
+                </div>
+              </div>
+              <div class="mt-5 border-t border-surface-variant pt-4">
+                <p class="mb-1 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Current bid</p>
+                <p id="current-bid" class="font-data-mono text-lg text-on-surface">$2,450.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="overflow-hidden px-4 py-24 sm:px-6 md:px-8 lg:px-10 lg:py-32">
+        <div class="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 class="font-headline-lg text-section-heading uppercase leading-none">Trending now</h2>
+            <p class="mt-3 max-w-2xl text-body text-secondary">The most wanted pieces in the vault right now.</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="neo-border p-2 transition-colors duration-200 hover:border-[#2f2fe4]" data-scroll="left" type="button"><span class="material-symbols-outlined">chevron_left</span></button>
+            <button class="neo-border p-2 transition-colors duration-200 hover:border-[#2f2fe4]" data-scroll="right" type="button"><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+        </div>
+        <div id="trending-track" class="hide-scrollbar mx-auto mt-10 flex max-w-7xl gap-6 overflow-x-auto pb-2">
+          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Wmns Total 90 Shox Magia in Sail Metallic Silver" src="Nike Wmns Total 90 Shox Magia 'Sail Metallic Silver'.webp" />
+              <div class="absolute right-4 top-4 border border-surface-variant bg-background px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Hot</div>
+            </div>
+            <div class="bg-surface p-6">
+              <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Nike</p>
+              <h3 class="font-headline-md text-card-heading uppercase">Nike Wmns Total 90 Shox Magia 'Sail Metallic Silver'</h3>
+              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+                <span class="font-data-mono text-sm">From $420</span>
+                <a href="product.html?id=p1" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+              </div>
+            </div>
+          </article>
+          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Kobe 4 Protro Draft Day Pack Lakers" src="Nike Zoom Kobe 4 Protro 'Draft Day Pack - Lakers'.png" />
+              <div class="absolute right-4 top-4 border border-surface-variant bg-primary-container px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-white">New</div>
+            </div>
+            <div class="bg-surface p-6">
+              <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Nike</p>
+              <h3 class="font-headline-md text-card-heading uppercase">Nike Zoom Kobe 4 Protro 'Draft Day Pack - Lakers'</h3>
+              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+                <span class="font-data-mono text-sm">From $695</span>
+                <a href="product.html?id=p2" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+              </div>
+            </div>
+          </article>
+          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 5 Retro Black Carolina UNC" src="Air Jordan 5 Retro 'Black Carolina  UNC' 2026.png" />
+              <div class="absolute right-4 top-4 border border-surface-variant bg-background px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Limited</div>
+            </div>
+            <div class="bg-surface p-6">
+              <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Air Jordan</p>
+              <h3 class="font-headline-md text-card-heading uppercase">Air Jordan 5 Retro 'Black Carolina / UNC' 2026</h3>
+              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+                <span class="font-data-mono text-sm">From $480</span>
+                <a href="product.html?id=p3" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+              </div>
+            </div>
+          </article>
+          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 11 Retro Cool Grey 2021" src="Air Jordan 11 Retro 'Cool Grey' 2021.png" />
+            </div>
+            <div class="bg-surface p-6">
+              <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Air Jordan</p>
+              <h3 class="font-headline-md text-card-heading uppercase">Air Jordan 11 Retro 'Cool Grey' 2021</h3>
+              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+                <span class="font-data-mono text-sm">From $310</span>
+                <a href="product.html?id=p4" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="bg-surface-container-lowest px-4 py-24 sm:px-6 md:px-8 lg:px-10 lg:py-32">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-10">
+            <h2 class="font-headline-lg text-section-heading uppercase leading-none">New listings</h2>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button data-category="all" class="filter-new h-10 bg-primary-container px-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-white" type="button">All</button>
+              <button data-category="sneakers" class="filter-new neo-border h-10 px-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface transition-colors duration-200 hover:border-[#2f2fe4]" type="button">Sneakers</button>
+              <button data-category="apparel" class="filter-new neo-border h-10 px-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface transition-colors duration-200 hover:border-[#2f2fe4]" type="button">Apparel</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <article data-category="apparel" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Vale Forever Dreams Zip Up Hoodie Pink" src="Vale Forever Dreams Zip Up Hoodie 'Pink'.png" />
+              </div>
+              <div class="p-6">
+                <div class="mb-2 flex items-start justify-between gap-4">
+                  <h4 class="font-headline-md text-card-heading uppercase">Vale Forever Dreams Zip Up Hoodie 'Pink'</h4>
+                  <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
+                </div>
+                <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: L | Cond: 10/10</p>
+                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                  <p class="font-data-mono text-lg text-primary">$850.00</p>
+                  <a href="product.html?id=p5" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+                </div>
+              </div>
+            </article>
+            <article data-category="sneakers" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="A-Feeling x Saucony ProGrid Paramount Science of WOW" src="A-Feeling x Saucony ProGrid Paramount 'Science of WOW'.png" />
+              </div>
+              <div class="p-6">
+                <div class="mb-2 flex items-start justify-between gap-4">
+                  <h4 class="font-headline-md text-card-heading uppercase">A-Feeling x Saucony ProGrid Paramount 'Science of WOW'</h4>
+                  <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Used</span>
+                </div>
+                <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: 11 | Cond: 9.5/10</p>
+                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                  <p class="font-data-mono text-lg text-primary">$695.00</p>
+                  <a href="product.html?id=p8" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+                </div>
+              </div>
+            </article>
+            <article data-category="apparel" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Godspeed F.T.D Hoodie Black Wash" src="Godspeed F.T.D Hoodie 'Black Wash'.png" />
+              </div>
+              <div class="p-6">
+                <div class="mb-2 flex items-start justify-between gap-4">
+                  <h4 class="font-headline-md text-card-heading uppercase">Godspeed F.T.D Hoodie 'Black Wash'</h4>
+                  <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
+                </div>
+                <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: XL | Cond: 10/10</p>
+                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                  <p class="font-data-mono text-lg text-primary">$295.00</p>
+                  <a href="product.html?id=p6" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+                </div>
+              </div>
+            </article>
+            <article data-category="sneakers" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Nike Wmns Total 90 SE Black White" src="Nike Wmns Total 90 SE 'Black White'.png" />
+              </div>
+              <div class="p-6">
+                <div class="mb-2 flex items-start justify-between gap-4">
+                  <h4 class="font-headline-md text-card-heading uppercase">Nike Wmns Total 90 SE 'Black White'</h4>
+                  <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
+                </div>
+                <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: 10 | Cond: 10/10</p>
+                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                  <p class="font-data-mono text-lg text-primary">$540.00</p>
+                  <a href="product.html?id=p7" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="mt-16 flex justify-center">
+            <a class="inline-flex h-12 items-center justify-center border border-surface-variant px-8 font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface transition-all duration-200 hover:border-[#2f2fe4]" href="listings.html">View all listings</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-t border-surface-variant px-4 py-24 sm:px-6 md:px-8 lg:px-10 lg:py-32">
+        <div class="mx-auto max-w-4xl text-center">
+          <h2 class="font-headline-lg text-section-heading uppercase leading-none">Secure access to the vault</h2>
+          <p class="mx-auto mt-6 max-w-2xl text-body text-secondary">Be the first to know about exclusive drops, auctions, and market alerts.</p>
+          <div class="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
+            <input class="input-shell flex-1 px-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Enter your email" type="email" />
+            <button class="h-12 bg-primary-container px-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-white transition-opacity duration-200 hover:opacity-90" type="button">Subscribe</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-surface-variant bg-surface-container-lowest px-4 py-20 sm:px-6 md:px-8 lg:px-10">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
+        <div class="md:col-span-4">
+          <img alt="VAULT" class="mb-8 h-12 w-auto" src="./VAULT.png" />
+          <p class="max-w-xs text-body text-secondary">The ultimate platform for luxury streetwear and high-end sneaker trading. Authenticated by experts. Secured by the vault.</p>
+        </div>
+        <div class="md:col-span-2">
+          <h5 class="mb-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">Marketplace</h5>
+          <ul class="space-y-4 text-body text-on-surface-variant">
+            <li><a class="transition-colors hover:text-primary" href="#">All drops</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Trending</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">New listings</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Authentication</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-2">
+          <h5 class="mb-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">Company</h5>
+          <ul class="space-y-4 text-body text-on-surface-variant">
+            <li><a class="transition-colors hover:text-primary" href="#">About</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Careers</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Press</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <h5 class="mb-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">Support</h5>
+          <ul class="space-y-4 text-body text-on-surface-variant">
+            <li><a class="transition-colors hover:text-primary" href="#">Help center</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Seller terms</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Buyer protection</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mx-auto mt-12 flex max-w-7xl flex-col justify-between border-t border-surface-variant pt-8 text-center text-[10px] font-data-mono uppercase tracking-[0.24em] text-secondary md:flex-row md:text-left">
+        <p>© 2024 Vault Worldwide. All rights reserved.</p>
+        <div class="mt-4 flex justify-center gap-8 md:mt-0">
+          <a class="transition-colors hover:text-primary" href="#">Instagram</a>
+          <a class="transition-colors hover:text-primary" href="#">Twitter</a>
+          <a class="transition-colors hover:text-primary" href="#">Discord</a>
+        </div>
+      </div>
+    </footer>
+
+    <nav class="fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-around border-t border-surface-variant bg-background/90 backdrop-blur-md md:hidden">
+      <button class="flex flex-col items-center justify-center text-primary" type="button">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+      </button>
+      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+        <span class="material-symbols-outlined">local_mall</span>
+      </button>
+      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+        <span class="material-symbols-outlined">person</span>
+      </button>
+    </nav>
+
+<script src="./store.js"></script>
+    <script>
+      const deadline = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000 + 22 * 60 * 60 * 1000 + 51 * 60 * 1000);
+
+      function updateCountdown() {
+        const diff = deadline - Date.now();
+        if (diff <= 0) {
+          document.querySelectorAll('#countdown [data-unit]').forEach((node) => {
+            node.textContent = '00';
+          });
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+        document.querySelector('#countdown [data-unit="days"]').textContent = String(days).padStart(2, '0');
+        document.querySelector('#countdown [data-unit="hours"]').textContent = String(hours).padStart(2, '0');
+        document.querySelector('#countdown [data-unit="minutes"]').textContent = String(minutes).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      const track = document.getElementById('trending-track');
+      document.querySelectorAll('[data-scroll]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const direction = button.getAttribute('data-scroll');
+          const amount = direction === 'right' ? 320 : -320;
+          track.scrollBy({ left: amount, behavior: 'smooth' });
+        });
+      });
+
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+          header.classList.add('bg-background/95', 'h-16');
+          header.classList.remove('h-20');
+        } else {
+          header.classList.remove('bg-background/95', 'h-16');
+          header.classList.add('h-20');
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const cartButton = document.getElementById('cart-button');
+        const profileButton = document.getElementById('profile-button');
+        if (cartButton) {
+          cartButton.addEventListener('click', () => window.location.href = 'cart.html');
+        }
+        if (profileButton) {
+          profileButton.addEventListener('click', () => window.location.href = 'auth.html');
+        }
+
+        // New listings category filters
+        const newFilterButtons = document.querySelectorAll('.filter-new');
+        const newArticles = document.querySelectorAll('article[data-category]');
+        function applyNewFilter(category) {
+          newArticles.forEach((art) => {
+            const cat = art.dataset.category || '';
+            if (category === 'all' || !category) {
+              art.classList.remove('hidden');
+            } else {
+              if (cat === category) art.classList.remove('hidden'); else art.classList.add('hidden');
+            }
+          });
+          newFilterButtons.forEach((btn) => {
+            btn.classList.toggle('filter-active', btn.dataset.category === category);
+          });
+        }
+        newFilterButtons.forEach((btn) => {
+          btn.addEventListener('click', () => applyNewFilter(btn.dataset.category));
+        });
+
+        applyNewFilter('all');
+
+        // Featured drop bidding
+        const placeBidButton = document.getElementById('place-bid-button');
+        const currentBidNode = document.getElementById('current-bid');
+        if (currentBidNode) {
+          const resetTo = 2500;
+          localStorage.setItem('vaultFeaturedBid', String(resetTo));
+          currentBidNode.textContent = typeof formatPrice === 'function' ? formatPrice(resetTo) : '$' + resetTo.toFixed(2);
+        }
+
+        function showStyledToast(message, type = 'info') {
+          const existing = document.getElementById('vault-toast-home');
+          if (existing) existing.remove();
+          const t = document.createElement('div');
+          t.id = 'vault-toast-home';
+          const title = type === 'error' ? 'Notice' : type === 'success' ? 'Success' : 'Notice';
+          t.innerHTML = `
+            <div style="font-weight:700; margin-bottom:6px; color:#0b0b0d">${title}</div>
+            <div style="color:#0b0b0d">${message}</div>
+          `;
+          Object.assign(t.style, {
+            position: 'fixed',
+            right: '20px',
+            top: '20px',
+            padding: '12px 16px',
+            background: '#ffffff',
+            color: '#0b0b0d',
+            borderRadius: '12px',
+            border: '1px solid rgba(11,11,13,0.06)',
+            zIndex: 9999,
+            boxShadow: '0 8px 24px rgba(2,6,23,0.08)'
+          });
+          if (type === 'error') {
+            t.style.background = '#fff5f5';
+            t.style.border = '1px solid rgba(255,99,99,0.22)';
+            t.querySelectorAll('div').forEach(d => d.style.color = '#2b0b0b');
+          } else if (type === 'success') {
+            t.style.background = '#f4ffef';
+            t.style.border = '1px solid rgba(34,197,94,0.16)';
+            t.querySelectorAll('div').forEach(d => d.style.color = '#06321a');
+          }
+          document.body.appendChild(t);
+          setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 300ms'; setTimeout(() => t.remove(), 350); }, 2600);
+        }
+
+        function showBidModal() {
+          if (!placeBidButton) return;
+          const overlay = document.createElement('div');
+          overlay.id = 'bid-overlay';
+          Object.assign(overlay.style, { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 });
+          const box = document.createElement('div');
+          Object.assign(box.style, { background: '#0b0b0d', padding: '18px', borderRadius: '12px', width: '320px', color: '#e6e4e3', border: '1px solid rgba(255,255,255,0.06)' });
+          box.innerHTML = `
+            <div style="font-weight:700; margin-bottom:8px">Place a bid</div>
+            <div style="margin-bottom:8px">Enter your bid amount (USD)</div>
+            <input id="bid-input" type="number" step="1" min="1" style="width:100%; padding:10px; border-radius:8px; border:1px solid #333; background:#0f0f17; color:#fff;" />
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button id="bid-submit" style="flex:1; padding:10px; border-radius:8px; background:#2f2fe4; color:#000; border:none;">Submit</button>
+              <button id="bid-cancel" style="flex:1; padding:10px; border-radius:8px; background:transparent; color:#e6e4e3; border:1px solid #333;">Cancel</button>
+            </div>
+          `;
+          overlay.appendChild(box);
+          document.body.appendChild(overlay);
+
+          const cleanup = () => { overlay.remove(); };
+          overlay.querySelector('#bid-cancel').addEventListener('click', cleanup);
+          overlay.addEventListener('click', (e) => { if (e.target === overlay) cleanup(); });
+          overlay.querySelector('#bid-submit').addEventListener('click', () => {
+            const input = document.getElementById('bid-input');
+            const val = Number(input.value);
+            if (Number.isNaN(val) || val <= 0) { showStyledToast('Enter a valid bid amount.', 'error'); return; }
+            // get current bid
+            const curText = currentBidNode?.textContent || '';
+            const cur = Number(String(curText).replace(/[^0-9.-]+/g, '')) || 0;
+            if (val <= cur) { showStyledToast('Your bid must be higher than the current bid.', 'error'); return; }
+            // persist
+            localStorage.setItem('vaultFeaturedBid', String(val));
+            if (currentBidNode) currentBidNode.textContent = typeof formatPrice === 'function' ? formatPrice(val) : '$' + val.toFixed(2);
+            cleanup();
+            showStyledToast('Bid placed — ' + (typeof formatPrice === 'function' ? formatPrice(val) : '$' + val.toFixed(2)), 'success');
+          });
+        }
+
+        if (placeBidButton) placeBidButton.addEventListener('click', showBidModal);
+      });
+    </script>
+  </body>
+</html>
