@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VAULT | Listings</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#131313",
+              surface: "#131313",
+              "surface-dim": "#131313",
+              "surface-bright": "#393939",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-container-low": "#1b1c1c",
+              "surface-container": "#1f2020",
+              "surface-container-high": "#2a2a2a",
+              "surface-container-highest": "#353535",
+              "surface-variant": "#353535",
+              "on-surface": "#e4e2e1",
+              "on-surface-variant": "#c6c4d9",
+              primary: "#c0c1ff",
+              "on-primary": "#0c00aa",
+              "primary-container": "#2f2fe4",
+              "on-primary-container": "#bdbfff",
+              secondary: "#c6c6c7",
+              "on-secondary": "#2f3131",
+              outline: "#908fa2"
+            },
+            fontFamily: {
+              "headline-md": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-lg": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-display": ["Designer", "Bebas Neue", "sans-serif"],
+              "body-md": ["Aero Matics", "Designer", "Hanken Grotesk", "sans-serif"],
+              "data-mono": ["JetBrains Mono", "monospace"],
+              "label-caps": ["Designer", "Hanken Grotesk", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Designer';
+        src: local('Designer'),
+             local('Designer Regular'),
+             url('./Designer.otf') format('opentype'),
+             url('./Designer (3).otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Aero Matics';
+        src: local('Aero Matics Light Italic'),
+             local('Aero Matics Light'),
+             url('./Aero Matics Light Italic.ttf') format('truetype');
+        font-weight: 300;
+        font-style: italic;
+        font-display: swap;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0a0a0a;
+        color: #e4e2e1;
+        font-family: 'Aero Matics', 'Designer', 'Hanken Grotesk', sans-serif;
+        scroll-behavior: smooth;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .site-logo,
+      .site-logo img {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .site-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .filter-pill {
+        cursor: pointer;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+      }
+      .filter-pill:hover {
+        border-color: #2f2fe4;
+        background: rgba(47, 47, 228, 0.12);
+      }
+      .filter-pill.active {
+        background: #2f2fe4;
+        color: #000;
+        border-color: #2f2fe4;
+      }
+      .sort-button {
+        cursor: pointer;
+        transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+      }
+      .sort-button:hover {
+        border-color: #2f2fe4;
+        background: rgba(47, 47, 228, 0.12);
+      }
+      .sort-button.active {
+        background: #2f2fe4;
+        color: #000;
+        border-color: #2f2fe4;
+      }
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .product-card-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+      }
+      .product-card-footer {
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/95 px-4 backdrop-blur-xl md:px-16 lg:px-20">
+      <a href="code.html" class="site-logo w-16 h-16">
+        <img src="./VAULT.png" alt="Vault logo" />
+      </a>
+      <nav class="hidden items-center gap-6 md:flex">
+        <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+        <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="listings.html">Marketplace</a>
+          
+        <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="about.html">About</a>
+      </nav>
+      <div class="flex items-center gap-4 md:gap-6">
+        <button id="cart-button" class="relative flex items-center text-on-surface-variant transition-colors duration-200 hover:text-primary" type="button" aria-label="Open cart">
+          <span class="material-symbols-outlined">local_mall</span>
+          <span id="cart-count" class="absolute -right-2 -top-2 hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-black">0</span>
+        </button>
+        <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
+          <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="pt-28 px-4 pb-20 sm:px-6 md:px-8 lg:px-10">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h1 class="font-headline-lg text-4xl uppercase tracking-[-0.04em] text-white">All listings</h1>
+            <p class="mt-3 max-w-2xl text-body text-on-surface-variant">Browse every product in the vault with category filters, sort controls, and detailed access to each drop.</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <button data-category="all" class="filter-pill rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface transition duration-200">All</button>
+            <button data-category="sneakers" class="filter-pill rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface transition duration-200">Sneakers</button>
+            <button data-category="apparel" class="filter-pill rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface transition duration-200">Apparel</button>
+          </div>
+        </div>
+
+        <div class="mb-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex flex-wrap gap-3">
+            <button data-sort="price-asc" class="sort-button rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface">Price: Low to High</button>
+            <button data-sort="price-desc" class="sort-button rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface">Price: High to Low</button>
+            <button data-sort="name-asc" class="sort-button rounded-full border border-surface-variant bg-surface px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-on-surface">A → Z</button>
+          </div>
+          <div class="flex items-center gap-3">
+            <label class="text-[11px] uppercase tracking-[0.24em] text-on-surface-variant">Search</label>
+            <input id="search-input" class="input-shell h-12 rounded-full border border-surface-variant bg-background/70 px-4 text-sm text-on-surface" placeholder="Search products" type="text" />
+          </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </div>
+    </main>
+
+    <footer class="border-t border-surface-variant bg-surface-container-lowest px-4 py-10 sm:px-6 md:px-8 lg:px-10">
+      <div class="mx-auto flex max-w-7xl flex-col gap-6 text-center text-[10px] font-data-mono uppercase tracking-[0.24em] text-secondary md:flex-row md:justify-between md:text-left">
+        <span>© 2024 Vault Worldwide. All rights reserved.</span>
+        <span>All products shown are available in the Vault storefront.</span>
+      </div>
+    </footer>
+
+    <script src="store.js"></script>
+    <script>
+      function createProductCard(product) {
+        return `
+          <article class="product-card group overflow-hidden rounded-3xl border border-[#333] bg-surface transition duration-200 hover:border-[#2f2fe4]">
+            <a href="product.html?id=${product.id}" class="block overflow-hidden bg-[#0f0f17] p-6">
+              <img class="h-72 w-full object-contain object-center transition duration-500 group-hover:scale-[1.03]" src="${product.image}" alt="${product.name}" />
+            </a>
+            <div class="product-card-content p-6">
+              <div class="mb-3 flex items-center justify-between gap-4">
+                <span class="rounded-full border border-surface-variant bg-background/80 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-on-surface-variant">${product.badge}</span>
+                <span class="font-data-mono text-sm text-primary">${formatPrice(product.price)}</span>
+              </div>
+              <a href="product.html?id=${product.id}" class="block text-sm uppercase tracking-[0.24em] text-secondary hover:text-primary">${product.brand}</a>
+              <h2 class="mt-2 text-lg font-headline-md uppercase leading-tight text-white">${product.name}</h2>
+              <p class="mt-4 text-sm leading-6 text-on-surface-variant">${product.description}</p>
+              <div class="product-card-footer">
+                <button data-product-id="${product.id}" class="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-primary text-black transition hover:bg-[#a5a7ff]">Add to cart</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function renderProducts(products) {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = products.map(createProductCard).join('');
+      }
+
+      function updateActiveCategory(category) {
+        document.querySelectorAll('.filter-pill').forEach((button) => {
+          button.classList.toggle('active', button.dataset.category === category);
+        });
+      }
+
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
+      function refreshListings() {
+        const view = getQueryParam('view');
+        const sort = localStorage.getItem('vaultSort') || 'price-asc';
+        const search = document.getElementById('search-input').value.trim();
+        let category = null;
+
+        if (view === 'latest') {
+          category = 'sneakers';
+        } else if (view === 'sneakers' || view === 'apparel') {
+          category = view;
+        }
+
+        const products = vaultStore.getProducts({ category, search });
+        renderProducts(vaultStore.sortProducts(products, sort));
+        updateActiveCategory(category || 'all');
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const sortButtons = document.querySelectorAll('[data-sort]');
+        const filterButtons = document.querySelectorAll('.filter-pill');
+
+        filterButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const category = button.dataset.category;
+            const url = new URL(window.location);
+            if (category === 'all') {
+              url.searchParams.delete('view');
+            } else {
+              url.searchParams.set('view', category);
+            }
+            window.location.href = url.toString();
+          });
+        });
+
+        function updateActiveSortButton(activeSort) {
+          sortButtons.forEach((button) => {
+            button.classList.toggle('active', button.dataset.sort === activeSort);
+          });
+        }
+
+        sortButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            localStorage.setItem('vaultSort', button.dataset.sort);
+            updateActiveSortButton(button.dataset.sort);
+            refreshListings();
+          });
+        });
+
+        document.getElementById('search-input').addEventListener('input', refreshListings);
+        updateActiveSortButton(localStorage.getItem('vaultSort') || 'price-asc');
+        refreshListings();
+
+        document.body.addEventListener('click', (event) => {
+          const addButton = event.target.closest('[data-product-id]');
+          if (!addButton) return;
+          const productId = addButton.dataset.productId;
+          vaultStore.addToCart(productId);
+          updateCartBadge();
+        });
+
+        document.getElementById('cart-button').addEventListener('click', () => {
+          window.location.href = 'cart.html';
+        });
+
+        document.getElementById('profile-button').addEventListener('click', () => {
+          window.location.href = 'auth.html';
+        });
+      });
+    </script>
+  </body>
+</html>

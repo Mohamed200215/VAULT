@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VAULT | Product</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#131313",
+              surface: "#131313",
+              "surface-dim": "#131313",
+              "surface-bright": "#393939",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-container-low": "#1b1c1c",
+              "surface-container": "#1f2020",
+              "surface-container-highest": "#353535",
+              "surface-variant": "#353535",
+              "on-surface": "#e4e2e1",
+              "on-surface-variant": "#c6c4d9",
+              primary: "#c0c1ff",
+              "on-primary": "#0c00aa",
+              "primary-container": "#2f2fe4",
+              "on-primary-container": "#bdbfff",
+              secondary: "#c6c6c7",
+              "on-secondary": "#2f3131",
+              outline: "#908fa2"
+            },
+            fontFamily: {
+              "headline-md": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-lg": ["Designer", "Bebas Neue", "sans-serif"],
+              "headline-display": ["Designer", "Bebas Neue", "sans-serif"],
+              "body-md": ["Aero Matics", "Designer", "Hanken Grotesk", "sans-serif"],
+              "data-mono": ["JetBrains Mono", "monospace"],
+              "label-caps": ["Designer", "Hanken Grotesk", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Designer';
+        src: local('Designer'),
+             local('Designer Regular'),
+             url('./Designer.otf') format('opentype'),
+             url('./Designer (3).otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Aero Matics';
+        src: local('Aero Matics Light Italic'),
+             local('Aero Matics Light'),
+             url('./Aero Matics Light Italic.ttf') format('truetype');
+        font-weight: 300;
+        font-style: italic;
+        font-display: swap;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0a0a0a;
+        color: #e4e2e1;
+        font-family: 'Aero Matics', 'Designer', 'Hanken Grotesk', sans-serif;
+        scroll-behavior: smooth;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .site-logo,
+      .site-logo img {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .site-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .tag-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.05);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.7rem;
+      }
+      .option-selected {
+        background: #2f2fe4 !important;
+        color: #000 !important;
+        border-color: #2f2fe4 !important;
+      }
+      #size-options button, #color-options button { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <header class="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/95 px-4 backdrop-blur-xl md:px-16 lg:px-20">
+      <a href="code.html" class="site-logo w-16 h-16">
+        <img src="./VAULT.png" alt="Vault logo" />
+      </a>
+      <div class="flex items-center gap-4 md:gap-6">
+        <button id="cart-button" class="relative flex items-center text-on-surface-variant transition-colors duration-200 hover:text-primary" type="button" aria-label="Open cart">
+          <span class="material-symbols-outlined">local_mall</span>
+          <span id="cart-count" class="absolute -right-2 -top-2 hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-black">0</span>
+        </button>
+        <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
+          <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+        </button>
+      </div>
+    </header>
+    <main class="pt-28 px-4 pb-20 sm:px-6 md:px-8 lg:px-10">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div class="rounded-[2rem] border border-[#333] bg-surface p-6 lg:p-10">
+            <div class="grid gap-6 lg:grid-cols-2">
+              <div class="overflow-hidden rounded-[1.75rem] bg-[#0f0f17] p-6 flex items-center justify-center">
+                <img id="product-image" class="max-h-full max-w-full object-contain" src="" alt="Product image" />
+              </div>
+              <div class="flex flex-col justify-between gap-6">
+                <div>
+                  <p id="product-brand" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary"></p>
+                  <h1 id="product-name" class="mt-3 text-4xl font-headline-lg uppercase tracking-[-0.04em] text-white"></h1>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex flex-wrap items-center gap-3">
+                    <span id="product-badge" class="tag-pill text-primary"></span>
+                    <span id="product-price" class="font-data-mono text-2xl text-primary"></span>
+                  </div>
+                  <p id="product-description" class="text-body leading-7 text-on-surface-variant"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <aside class="space-y-6">
+            <div class="rounded-[2rem] border border-[#333] bg-surface p-6">
+              <h2 class="font-headline-md text-xl uppercase text-white">Choose your size</h2>
+              <div id="size-options" class="mt-4 flex flex-wrap gap-3"></div>
+            </div>
+            <div class="rounded-[2rem] border border-[#333] bg-surface p-6">
+              <h2 class="font-headline-md text-xl uppercase text-white">Colorway</h2>
+              <div id="color-options" class="mt-4 flex flex-wrap gap-3"></div>
+            </div>
+                <div class="rounded-[2rem] border border-[#333] bg-surface p-6">
+              <div class="flex gap-3">
+                <button id="add-to-cart-button" class="flex-1 inline-flex h-14 items-center justify-center rounded-full bg-primary text-black transition hover:bg-[#a5a7ff]">Add to cart</button>
+                <button id="buy-now-button" class="flex-1 inline-flex h-14 items-center justify-center rounded-full border border-primary text-primary transition hover:bg-primary hover:text-black">Buy now</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+    <footer class="border-t border-surface-variant bg-surface-container-lowest px-4 py-10 sm:px-6 md:px-8 lg:px-10">
+      <div class="mx-auto flex max-w-7xl flex-col gap-6 text-center text-[10px] font-data-mono uppercase tracking-[0.24em] text-secondary md:flex-row md:justify-between md:text-left">
+        <span>© 2024 Vault Worldwide. All rights reserved.</span>
+        <span>Product detail page powered by local Vault store data.</span>
+      </div>
+    </footer>
+    <script src="store.js"></script>
+    <script>
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
+      function createOptionButton(value, label) {
+        return `<button data-value="${value}" class="rounded-full border border-surface-variant bg-background/80 px-4 py-2 text-sm uppercase tracking-[0.18em] text-on-surface transition duration-200 hover:border-[#2f2fe4]">${label}</button>`;
+      }
+
+      function renderProduct(product) {
+        document.getElementById('product-image').src = product.image;
+        document.getElementById('product-image').alt = product.name;
+        document.getElementById('product-brand').textContent = product.brand;
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-badge').textContent = product.badge;
+        document.getElementById('product-price').textContent = formatPrice(product.price);
+        document.getElementById('product-description').textContent = product.description;
+
+        document.getElementById('size-options').innerHTML = product.sizes.map((size) => createOptionButton(size, size)).join('');
+        document.getElementById('color-options').innerHTML = product.colors.map((color) => createOptionButton(color, color)).join('');
+      }
+
+      function showToast(html) {
+        const existing = document.getElementById('vault-toast');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.id = 'vault-toast';
+        toast.innerHTML = html;
+        Object.assign(toast.style, {
+          position: 'fixed',
+          right: '20px',
+          top: '20px',
+          zIndex: 9999,
+          background: 'linear-gradient(135deg, rgba(47,47,228,0.95), rgba(192,193,255,0.95))',
+          color: '#000',
+          padding: '12px 16px',
+          borderRadius: '12px',
+          boxShadow: '0 8px 30px rgba(0,0,0,0.45)',
+          display: 'flex',
+          gap: '12px',
+          alignItems: 'center',
+          minWidth: '260px'
+        });
+        const img = toast.querySelector('img');
+        if (img) Object.assign(img.style, { width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover' });
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.transition = 'opacity 300ms ease, transform 300ms ease';
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-10px)';
+          setTimeout(() => toast.remove(), 350);
+        }, 2400);
+      }
+
+      function selectOption(containerId, button) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const buttons = container.querySelectorAll('button');
+        buttons.forEach((b) => b.classList.remove('option-selected'));
+        button.classList.add('option-selected');
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const productId = getQueryParam('id');
+        const product = vaultStore.getProduct(productId);
+        if (!product) {
+          document.body.innerHTML = '<main class="min-h-screen flex items-center justify-center"><p class="text-white">Product not found.</p></main>';
+          return;
+        }
+
+        renderProduct(product);
+
+        const sizeContainer = document.getElementById('size-options');
+        const colorContainer = document.getElementById('color-options');
+
+        if (sizeContainer) {
+          sizeContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            selectOption('size-options', btn);
+          });
+        }
+
+        if (colorContainer) {
+          colorContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            selectOption('color-options', btn);
+          });
+        }
+
+        document.getElementById('add-to-cart-button').addEventListener('click', () => {
+          const selectedSize = document.querySelector('#size-options .option-selected')?.dataset.value || '';
+          const selectedColor = document.querySelector('#color-options .option-selected')?.dataset.value || '';
+          vaultStore.addToCart(product.id);
+          updateCartBadge();
+          const toastHtml = `
+            <img src="${product.image}" alt="${product.name}" />
+            <div>
+              <div style="font-weight:700">Added to cart</div>
+              <div style="font-size:13px">${product.name}</div>
+              <div style="font-size:12px;opacity:0.9">${selectedSize ? 'Size: ' + selectedSize : ''} ${selectedColor ? ' • Color: ' + selectedColor : ''}</div>
+            </div>
+          `;
+          showToast(toastHtml);
+        });
+
+        document.getElementById('buy-now-button').addEventListener('click', () => {
+          const selectedSize = document.querySelector('#size-options .option-selected')?.dataset.value || '';
+          const selectedColor = document.querySelector('#color-options .option-selected')?.dataset.value || '';
+          vaultStore.addToCart(product.id);
+          updateCartBadge();
+          const toastHtml = `
+            <img src="${product.image}" alt="${product.name}" />
+            <div>
+              <div style="font-weight:700">Ready to buy</div>
+              <div style="font-size:13px">${product.name}</div>
+              <div style="font-size:12px;opacity:0.9">${selectedSize ? 'Size: ' + selectedSize : ''} ${selectedColor ? ' • Color: ' + selectedColor : ''}</div>
+            </div>
+          `;
+          showToast(toastHtml);
+          setTimeout(() => { window.location.href = 'cart.html'; }, 600);
+        });
+
+        document.getElementById('cart-button').addEventListener('click', () => {
+          window.location.href = 'cart.html';
+        });
+
+        document.getElementById('profile-button').addEventListener('click', () => {
+          window.location.href = 'auth.html';
+        });
+      });
+    </script>
+  </body>
+</html>

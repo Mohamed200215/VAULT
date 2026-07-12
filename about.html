@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VAULT | How it Works</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#0b0b0d",
+              surface: "#131316",
+              "surface-muted": "#1c1c22",
+              "surface-soft": "#1f1f24",
+              "surface-strong": "#25252b",
+              "on-surface": "#e6e4e3",
+              "on-surface-variant": "#9b9ab0",
+              primary: "#c0c1ff",
+              "primary-strong": "#2f2fe4",
+              "primary-container": "#2f2fe4",
+              secondary: "#8f8fa5",
+              outline: "#3b3b4a"
+            },
+            fontFamily: {
+              display: ["Designer", "Bebas Neue", "sans-serif"],
+              body: ["Aero Matics", "Designer", "Hanken Grotesk", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+              "label-caps": ["Designer", "Hanken Grotesk", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Designer';
+        src: local('Designer'),
+             local('Designer Regular'),
+             url('./Designer.otf') format('opentype'),
+             url('./Designer (3).otf') format('opentype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Aero Matics';
+        src: local('Aero Matics Light Italic'),
+             local('Aero Matics Light'),
+             url('./Aero Matics Light Italic.ttf') format('truetype');
+        font-weight: 300;
+        font-style: italic;
+        font-display: swap;
+      }
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0b0b0d;
+        color: #e6e4e3;
+        font-family: 'Aero Matics', 'Designer', 'Hanken Grotesk', sans-serif;
+        scroll-behavior: smooth;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .section-title {
+        font-family: 'Designer', 'Bebas Neue', sans-serif;
+      }
+      .step-card {
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(20, 20, 30, 0.92);
+        backdrop-filter: blur(16px);
+      }
+      .feature-panel {
+        border: 1px solid rgba(255,255,255,0.08);
+        background: linear-gradient(180deg, rgba(20,20,30,0.96), rgba(11,11,13,0.92));
+      }
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top left, rgba(192,193,255,0.24), transparent 24%),
+                    radial-gradient(circle at bottom right, rgba(47,47,228,0.12), transparent 22%);
+        pointer-events: none;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.1rem;
+        border: 1px solid rgba(192,193,255,0.25);
+        background: rgba(255,255,255,0.04);
+        color: #c0c1ff;
+        text-transform: uppercase;
+        letter-spacing: 0.26em;
+        font-size: 0.72rem;
+        font-family: 'Designer', sans-serif;
+      }
+      .site-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4rem;
+        height: 4rem;
+      }
+      .site-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      header,
+      header .nav-link,
+      header .font-label-caps,
+      header .hero-badge {
+        font-family: 'Designer', 'Bebas Neue', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden">
+    <header class="fixed top-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/80 px-4 backdrop-blur-xl md:px-16 lg:px-20">
+      <div class="flex items-center gap-6 md:gap-8">
+        <a href="./code.html" class="site-logo">
+          <img src="./VAULT.png" alt="Vault logo" />
+        </a>
+        <nav class="hidden gap-6 md:flex">
+          <a class="nav-link font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+          <a class="nav-link font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="listings.html">Marketplace</a>
+          
+          <a class="nav-link font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary" href="about.html">About</a>
+        </nav>
+      </div>
+      <div class="mx-8 hidden max-w-md flex-1 lg:block">
+        <div class="relative flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-secondary">search</span>
+          <input class="input-shell w-full pl-10 pr-4 font-body text-xs tracking-[0.16em]" placeholder="Search sneakers, brands, drops..." type="text" />
+        </div>
+      </div>
+      <div class="flex items-center gap-4 md:gap-6">
+        <button id="cart-button" class="relative flex items-center text-on-surface-variant transition-colors duration-200 hover:text-primary" type="button" aria-label="Open cart">
+          <span class="material-symbols-outlined">local_mall</span>
+          <span id="cart-count" class="absolute -right-2 -top-2 hidden h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-black">0</span>
+          <span class="ml-1 hidden font-label-caps text-[11px] uppercase tracking-[0.24em] md:inline">Cart</span>
+        </button>
+        <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
+          <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="relative pt-28">
+      <div class="hero-glow"></div>
+      <section class="relative overflow-hidden px-4 pb-20 sm:px-6 lg:px-10">
+        <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:items-center lg:gap-20">
+          <div class="lg:col-span-6">
+            <span class="hero-badge">How it works</span>
+            <h1 class="mt-8 max-w-3xl text-5xl font-display uppercase leading-tight tracking-[-0.04em] text-white sm:text-6xl">Vault moves every drop from discovery to delivery with confidence.</h1>
+            <p class="mt-6 max-w-2xl text-base leading-8 text-on-surface-variant">Step into the world of authenticated streetwear and high-end sneaker trading. We combine market transparency, trust, and curated access so buyers and sellers move with clarity.</p>
+            <div class="mt-10 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl border border-white/10 bg-surface p-6 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+                <p class="text-sm uppercase tracking-[0.26em] text-primary">Live marketplace</p>
+                <p class="mt-3 text-lg font-semibold text-white">Real-time bids, offers, and price signals across every release.</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-surface p-6 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+                <p class="text-sm uppercase tracking-[0.26em] text-primary">Secure fulfillment</p>
+                <p class="mt-3 text-lg font-semibold text-white">From authentication to delivery, every order passes through the Vault.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-surface-soft p-6 shadow-[0_32px_90px_rgba(0,0,0,0.45)] sm:p-8">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(192,193,255,0.15),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(47,47,228,0.12),transparent_30%)]"></div>
+              <div class="relative grid gap-6">
+                <div class="rounded-[1.75rem] border border-white/10 bg-background/80 p-6">
+                  <p class="text-sm uppercase tracking-[0.26em] text-primary">Verified release</p>
+                  <h2 class="mt-4 text-3xl font-display uppercase leading-tight text-white">Authenticity guaranteed on every order.</h2>
+                  <p class="mt-4 text-sm leading-7 text-on-surface-variant">Every product is inspected by experts before it reaches buyers. No exceptions, no compromises.</p>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div class="rounded-[1.75rem] border border-white/10 bg-[#101018] p-5">
+                    <p class="text-sm uppercase tracking-[0.24em] text-secondary">Add to cart</p>
+                    <p class="mt-3 text-lg font-semibold text-white">Browse exclusive drops and secure offers.</p>
+                  </div>
+                  <div class="rounded-[1.75rem] border border-white/10 bg-[#101018] p-5">
+                    <p class="text-sm uppercase tracking-[0.24em] text-secondary">Ship with confidence</p>
+                    <p class="mt-3 text-lg font-semibold text-white">Send your item to the Vault for expert authentication.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-12 max-w-3xl">
+            <p class="text-sm uppercase tracking-[0.26em] text-primary">Process</p>
+            <h2 class="mt-4 text-4xl font-display uppercase leading-tight text-white">The Vault experience in four simple steps.</h2>
+            <p class="mt-4 text-base leading-8 text-on-surface-variant">Whether you are buying or selling, every journey is backed by authentication, transparency, and delivery built for modern collectors.</p>
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-4">
+            <article class="step-card rounded-[1.75rem] p-8">
+              <div class="text-3xl text-primary">1</div>
+              <h3 class="mt-6 text-xl font-semibold text-white">Discover drops</h3>
+              <p class="mt-3 text-sm leading-7 text-on-surface-variant">Browse curated releases, market movers and exclusive pairs available only in the Vault.</p>
+            </article>
+            <article class="step-card rounded-[1.75rem] p-8">
+              <div class="text-3xl text-primary">2</div>
+              <h3 class="mt-6 text-xl font-semibold text-white">Place your order</h3>
+              <p class="mt-3 text-sm leading-7 text-on-surface-variant">Buy at market price or place a bid — every transaction is locked and transparent.</p>
+            </article>
+            <article class="step-card rounded-[1.75rem] p-8">
+              <div class="text-3xl text-primary">3</div>
+              <h3 class="mt-6 text-xl font-semibold text-white">Authenticate</h3>
+              <p class="mt-3 text-sm leading-7 text-on-surface-variant">Sellers ship to our Vault, where experts verify condition and authenticity before release.</p>
+            </article>
+            <article class="step-card rounded-[1.75rem] p-8">
+              <div class="text-3xl text-primary">4</div>
+              <h3 class="mt-6 text-xl font-semibold text-white">Receive</h3>
+              <p class="mt-3 text-sm leading-7 text-on-surface-variant">Once verified, your order ships securely to your door with tracking and delivery updates.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="authenticity" class="px-4 py-20 sm:px-6 lg:px-10">
+        <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-5">
+            <p class="text-sm uppercase tracking-[0.26em] text-primary">Authentication</p>
+            <h2 class="mt-4 text-4xl font-display uppercase leading-tight text-white">Every product is inspected before it leaves the Vault.</h2>
+            <p class="mt-6 max-w-xl text-base leading-8 text-on-surface-variant">Our authentication team checks grading, packaging, serials, and condition. Only verified products are released to buyers, so every order is backed by Vault trust.</p>
+          </div>
+          <div class="lg:col-span-7">
+            <div class="feature-panel rounded-[2rem] p-10">
+              <div class="grid gap-6 lg:grid-cols-3">
+                <div class="rounded-3xl bg-background/90 p-6">
+                  <p class="text-sm uppercase tracking-[0.24em] text-secondary">Paperwork review</p>
+                  <p class="mt-4 text-lg font-semibold text-white">Every label, receipt, and tag is inspected for authenticity.</p>
+                </div>
+                <div class="rounded-3xl bg-background/90 p-6">
+                  <p class="text-sm uppercase tracking-[0.24em] text-secondary">Condition grading</p>
+                  <p class="mt-4 text-lg font-semibold text-white">Our experts verify item condition using consistent, collectible-grade standards.</p>
+                </div>
+                <div class="rounded-3xl bg-background/90 p-6">
+                  <p class="text-sm uppercase tracking-[0.24em] text-secondary">Secure storage</p>
+                  <p class="mt-4 text-lg font-semibold text-white">Authenticated pairs move through secure handling before final shipping.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="market" class="border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-7xl">
+          <div class="grid gap-12 lg:grid-cols-12 lg:items-end">
+            <div class="lg:col-span-5">
+              <p class="text-sm uppercase tracking-[0.26em] text-primary">Market insight</p>
+              <h2 class="mt-4 text-4xl font-display uppercase leading-tight text-white">Transparent pricing and market signals for every release.</h2>
+              <p class="mt-6 text-base leading-8 text-on-surface-variant">See how prices are moving, compare bids, and access the data that helps buyers and sellers make smarter decisions.</p>
+            </div>
+            <div class="lg:col-span-7">
+              <div class="feature-panel rounded-[2rem] p-10">
+                <div class="grid gap-6 sm:grid-cols-2">
+                  <div class="rounded-3xl bg-background/90 p-6">
+                    <p class="text-sm uppercase tracking-[0.24em] text-secondary">24/7 market data</p>
+                    <p class="mt-4 text-lg font-semibold text-white">Live pricing updates and historical signals for the hottest drops.</p>
+                  </div>
+                  <div class="rounded-3xl bg-background/90 p-6">
+                    <p class="text-sm uppercase tracking-[0.24em] text-secondary">Price transparency</p>
+                    <p class="mt-4 text-lg font-semibold text-white">All bids and recent sales are available before you buy or sell.</p>
+                  </div>
+                </div>
+                <div class="mt-8 rounded-[1.75rem] border border-white/10 bg-[#09090c] p-6">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm uppercase tracking-[0.24em] text-secondary">Market pulse</p>
+                      <p class="mt-3 text-3xl font-semibold text-white">+18% growth in verified bid volume</p>
+                    </div>
+                    <span class="rounded-full bg-primary px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-black">Verified</span>
+                  </div>
+                  <div class="mt-8 h-48 overflow-hidden rounded-[1.5rem] bg-white/5">
+                    <div class="h-full bg-[linear-gradient(90deg,#2f2fe4_22%,#c0c1ff_56%,rgba(192,193,255,0.14)_100%)]"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="px-4 py-20 sm:px-6 lg:px-10">
+        <div class="mx-auto max-w-6xl rounded-[2rem] border border-white/10 bg-surface p-10 shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
+          <div class="grid gap-10 lg:grid-cols-3 lg:items-center">
+            <div class="lg:col-span-1">
+              <p class="text-sm uppercase tracking-[0.26em] text-primary">Why Vault</p>
+              <h2 class="mt-4 text-4xl font-display uppercase leading-tight text-white">Trusted by buyers, built for collectors.</h2>
+            </div>
+            <div class="lg:col-span-2 space-y-6">
+              <div class="rounded-3xl border border-white/10 bg-background/85 p-6">
+                <p class="text-sm uppercase tracking-[0.24em] text-secondary">Reliable fulfillment</p>
+                <p class="mt-3 text-base leading-7 text-on-surface-variant">Your orders arrive with tracking and secure shipping from our fulfillment partners.</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-background/85 p-6">
+                <p class="text-sm uppercase tracking-[0.24em] text-secondary">Expert curation</p>
+                <p class="mt-3 text-base leading-7 text-on-surface-variant">We hand-select every release and surface the best opportunities for serious collectors.</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-background/85 p-6">
+                <p class="text-sm uppercase tracking-[0.24em] text-secondary">No surprises</p>
+                <p class="mt-3 text-base leading-7 text-on-surface-variant">Pricing, condition, and delivery details are clear from start to finish.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-white/10 bg-background/95 px-4 py-14 sm:px-6 lg:px-10">
+      <div class="mx-auto max-w-7xl text-center">
+        <p class="text-sm uppercase tracking-[0.28em] text-primary">Vault</p>
+        <p class="mt-4 text-base leading-7 text-on-surface-variant">High-end sneaker marketplace with authenticated drops, transparent pricing, and secure fulfillment.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-6 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant">
+          <a href="./code.html" class="transition hover:text-white">Home</a>
+          <a href="./about.html" class="text-white">How it works</a>
+          <a href="#authenticity" class="transition hover:text-white">Authentication</a>
+          <a href="#market" class="transition hover:text-white">Market</a>
+        </div>
+      </div>
+    </footer>
+    <script src="./store.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        updateCartBadge();
+
+        const cartButton = document.getElementById('cart-button');
+        const profileButton = document.getElementById('profile-button');
+
+        if (cartButton) {
+          cartButton.addEventListener('click', () => {
+            window.location.href = 'cart.html';
+          });
+        }
+
+        if (profileButton) {
+          profileButton.addEventListener('click', () => {
+            window.location.href = 'auth.html';
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
