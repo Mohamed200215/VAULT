@@ -63,8 +63,7 @@
         font-family: 'Designer';
         src: local('Designer'),
              local('Designer Regular'),
-             url('./Designer.otf') format('opentype'),
-             url('./Designer (3).otf') format('opentype');
+             url('./assets/fonts/Designer.otf') format('opentype');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -73,7 +72,7 @@
         font-family: 'Aero Matics';
         src: local('Aero Matics Light Italic'),
              local('Aero Matics Light'),
-             url('./Aero Matics Light Italic.ttf') format('truetype');
+             url('./assets/fonts/AeroMaticsLightItalic.ttf') format('truetype');
         font-weight: 300;
         font-style: italic;
         font-display: swap;
@@ -251,16 +250,29 @@
       }
       .filter-active {
         background: #2f2fe4 !important;
-        color: #000 !important;
+        color: #fff !important;
         border-color: #2f2fe4 !important;
+      }
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+      }
+      .product-card-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+      }
+      .product-card-footer {
+        margin-top: auto;
       }
     </style>
   </head>
   <body class="font-body-md overflow-x-hidden">
     <header class="fixed top-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/80 px-4 backdrop-blur-xl md:px-16 lg:px-20">
       <div class="flex items-center gap-6 md:gap-8">
-        <a href="#" class="site-logo">
-          <img src="./VAULT.png" alt="VAULT logo" />
+        <a href="index.html" class="site-logo">
+          <img src="./assets/images/logo/vault-logo.png" alt="VAULT logo" />
         </a>
         <nav class="hidden gap-6 md:flex">
           <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
@@ -272,7 +284,7 @@
       <div class="mx-8 hidden max-w-md flex-1 lg:block">
         <div class="relative flex items-center">
           <span class="material-symbols-outlined absolute left-3 text-secondary">search</span>
-          <input class="input-shell w-full pl-10 pr-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Search sneakers, brands, drops..." type="text" />
+          <input id="home-search-input" class="input-shell w-full pl-10 pr-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Search sneakers, brands, drops..." type="text" />
         </div>
       </div>
       <div class="flex items-center gap-4 md:gap-6">
@@ -284,30 +296,46 @@
         <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
           <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
         </button>
+        <button id="mobile-menu-button" class="flex items-center justify-center text-on-surface-variant md:hidden" type="button" aria-label="Open menu" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
     </header>
 
+    <div id="mobile-nav-menu" class="fixed left-0 top-20 z-40 hidden w-full flex-col gap-1 border-b border-surface-variant bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="listings.html">Marketplace</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="./about.html">About</a>
+    </div>
+
     <main class="pt-20">
-      <section class="relative flex min-h-[90vh] flex-col justify-end overflow-hidden">
+      <section class="relative flex flex-col justify-center overflow-hidden bg-background">
         <div class="absolute inset-0 z-0 overflow-hidden">
-          <img class="min-h-full w-full object-contain object-center" alt="Air Jordan 7 Retro 'Miro' 2026" src="Air Jordan 7 Retro 'Miro' 2026.png" />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+          <div class="absolute -top-32 right-[-10%] h-[560px] w-[560px] rounded-full bg-primary-container/25 blur-[160px]"></div>
+          <div class="absolute bottom-[-20%] left-[-10%] h-[420px] w-[420px] rounded-full bg-primary/10 blur-[140px]"></div>
         </div>
         <div class="vault-animation">
           <div class="vault-door left"></div>
           <div class="vault-door right"></div>
           <div class="vault-seal">Vault opening</div>
         </div>
-        <div class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-12 md:gap-8 md:px-8 lg:px-10 lg:pb-20">
-          <div class="md:col-span-7 md:pr-8">
+        <div class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-4 py-10 sm:px-6 md:grid-cols-12 md:gap-10 md:px-8 md:py-12 lg:px-10">
+          <div class="md:col-span-6 md:pr-8">
             <span class="mb-4 inline-flex border border-[#333] bg-background/70 px-3 py-1 font-label-caps text-[11px] uppercase tracking-[0.3em] text-secondary">Featured drop</span>
-            <h1 class="font-headline-display text-display uppercase leading-none text-[#4f9eff]">Air Jordan 7 Retro 'Miro' 2026</h1>
+            <h1 class="font-headline-display text-display uppercase leading-none text-white">Air Jordan 7 Retro 'Miro' 2026</h1>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button id="place-bid-button" class="h-12 border border-white px-6 text-sm font-label-caps uppercase tracking-[0.24em] text-white transition-all duration-200 hover:bg-white hover:text-black" type="button">Place bid</button>
+              <button id="place-bid-button" class="h-12 border border-white bg-background/40 px-6 text-sm font-label-caps uppercase tracking-[0.24em] text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-black" type="button">Place bid</button>
             </div>
           </div>
-          <div class="md:col-span-5">
-            <div class="neo-border w-full max-w-sm bg-surface/70 p-6 backdrop-blur-md md:ml-auto md:max-w-none">
+          <div class="md:col-span-6">
+            <button id="hero-shoe-trigger" type="button" class="neo-border group relative block w-full bg-surface-container-low p-10 md:p-14" aria-label="View Air Jordan 7 Retro 'Miro' 2026 from all angles">
+              <img class="mx-auto h-full max-h-[380px] w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]" alt="Air Jordan 7 Retro 'Miro' 2026" src="assets/images/products/air-jordan-7-miro/front.png" />
+              <span class="absolute bottom-4 right-4 flex items-center gap-2 border border-[#333] bg-background/80 px-3 py-1.5 font-label-caps text-[10px] uppercase tracking-[0.2em] text-secondary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <span class="material-symbols-outlined text-sm">visibility</span>
+                View all angles
+              </span>
+            </button>
+            <div class="neo-border -mt-px w-full bg-surface/70 p-6 backdrop-blur-md">
               <p class="mb-3 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Auction ends in</p>
               <div class="grid grid-cols-3 gap-3" id="countdown">
                 <div class="border border-[#333] bg-background/70 p-3 text-center">
@@ -344,56 +372,56 @@
           </div>
         </div>
         <div id="trending-track" class="hide-scrollbar mx-auto mt-10 flex max-w-7xl gap-6 overflow-x-auto pb-2">
-          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
-            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
-              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Wmns Total 90 Shox Magia in Sail Metallic Silver" src="Nike Wmns Total 90 Shox Magia 'Sail Metallic Silver'.webp" />
+          <article class="product-card min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <a href="product.html?id=p1" class="relative block aspect-square overflow-hidden bg-surface-container p-8" aria-label="View Nike Wmns Total 90 Shox Magia 'Sail Metallic Silver'">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Wmns Total 90 Shox Magia in Sail Metallic Silver" src="assets/images/products/nike-total90-shox-silver/1.png" />
               <div class="absolute right-4 top-4 border border-surface-variant bg-background px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Hot</div>
-            </div>
-            <div class="bg-surface p-6">
+            </a>
+            <div class="product-card-content bg-surface p-6">
               <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Nike</p>
               <h3 class="font-headline-md text-card-heading uppercase">Nike Wmns Total 90 Shox Magia 'Sail Metallic Silver'</h3>
-              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+              <div class="product-card-footer mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
                 <span class="font-data-mono text-sm">From $420</span>
                 <a href="product.html?id=p1" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
               </div>
             </div>
           </article>
-          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
-            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
-              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Kobe 4 Protro Draft Day Pack Lakers" src="Nike Zoom Kobe 4 Protro 'Draft Day Pack - Lakers'.png" />
+          <article class="product-card min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <a href="product.html?id=p2" class="relative block aspect-square overflow-hidden bg-surface-container p-8" aria-label="View Nike Zoom Kobe 4 Protro 'Draft Day Pack - Lakers'">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Nike Kobe 4 Protro Draft Day Pack Lakers" src="assets/images/products/nike-kobe4-protro-lakers/1.png" />
               <div class="absolute right-4 top-4 border border-surface-variant bg-primary-container px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-white">New</div>
-            </div>
-            <div class="bg-surface p-6">
+            </a>
+            <div class="product-card-content bg-surface p-6">
               <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Nike</p>
               <h3 class="font-headline-md text-card-heading uppercase">Nike Zoom Kobe 4 Protro 'Draft Day Pack - Lakers'</h3>
-              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+              <div class="product-card-footer mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
                 <span class="font-data-mono text-sm">From $695</span>
                 <a href="product.html?id=p2" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
               </div>
             </div>
           </article>
-          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
-            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
-              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 5 Retro Black Carolina UNC" src="Air Jordan 5 Retro 'Black Carolina  UNC' 2026.png" />
+          <article class="product-card min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <a href="product.html?id=p3" class="relative block aspect-square overflow-hidden bg-surface-container p-8" aria-label="View Air Jordan 5 Retro 'Black Carolina / UNC' 2026">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 5 Retro Black Carolina UNC" src="assets/images/products/air-jordan-5-black-carolina/1.png" />
               <div class="absolute right-4 top-4 border border-surface-variant bg-background px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Limited</div>
-            </div>
-            <div class="bg-surface p-6">
+            </a>
+            <div class="product-card-content bg-surface p-6">
               <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Air Jordan</p>
               <h3 class="font-headline-md text-card-heading uppercase">Air Jordan 5 Retro 'Black Carolina / UNC' 2026</h3>
-              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+              <div class="product-card-footer mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
                 <span class="font-data-mono text-sm">From $480</span>
                 <a href="product.html?id=p3" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
               </div>
             </div>
           </article>
-          <article class="min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
-            <div class="relative aspect-square overflow-hidden bg-surface-container p-8">
-              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 11 Retro Cool Grey 2021" src="Air Jordan 11 Retro 'Cool Grey' 2021.png" />
-            </div>
-            <div class="bg-surface p-6">
+          <article class="product-card min-w-[280px] flex-1 max-w-[320px] border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4] sm:min-w-[320px]">
+            <a href="product.html?id=p4" class="relative block aspect-square overflow-hidden bg-surface-container p-8" aria-label="View Air Jordan 11 Retro 'Cool Grey' 2021">
+              <img class="h-full w-full object-contain transition-transform duration-500 hover:scale-[1.03]" alt="Air Jordan 11 Retro Cool Grey 2021" src="assets/images/products/air-jordan-11-cool-grey/1.png" />
+            </a>
+            <div class="product-card-content bg-surface p-6">
               <p class="mb-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Air Jordan</p>
               <h3 class="font-headline-md text-card-heading uppercase">Air Jordan 11 Retro 'Cool Grey' 2021</h3>
-              <div class="mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+              <div class="product-card-footer mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
                 <span class="font-data-mono text-sm">From $310</span>
                 <a href="product.html?id=p4" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
               </div>
@@ -413,65 +441,65 @@
             </div>
           </div>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <article data-category="apparel" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
-              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
-                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Vale Forever Dreams Zip Up Hoodie Pink" src="Vale Forever Dreams Zip Up Hoodie 'Pink'.png" />
-              </div>
-              <div class="p-6">
+            <article data-category="apparel" class="product-card border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <a href="product.html?id=p5" class="relative block aspect-[4/5] overflow-hidden bg-surface p-6" aria-label="View Vale Forever Dreams Zip Up Hoodie 'Pink'">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Vale Forever Dreams Zip Up Hoodie Pink" src="assets/images/products/vale-forever-hoodie-pink/1.png" />
+              </a>
+              <div class="product-card-content p-6">
                 <div class="mb-2 flex items-start justify-between gap-4">
                   <h4 class="font-headline-md text-card-heading uppercase">Vale Forever Dreams Zip Up Hoodie 'Pink'</h4>
                   <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
                 </div>
                 <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: L | Cond: 10/10</p>
-                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                <div class="product-card-footer flex items-center justify-between border-t border-surface-variant pt-4">
                   <p class="font-data-mono text-lg text-primary">$850.00</p>
                   <a href="product.html?id=p5" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
                 </div>
               </div>
             </article>
-            <article data-category="sneakers" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
-              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
-                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="A-Feeling x Saucony ProGrid Paramount Science of WOW" src="A-Feeling x Saucony ProGrid Paramount 'Science of WOW'.png" />
-              </div>
-              <div class="p-6">
+            <article data-category="sneakers" class="product-card border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <a href="product.html?id=p8" class="relative block aspect-[4/5] overflow-hidden bg-surface p-6" aria-label="View A-Feeling x Saucony ProGrid Paramount 'Science of WOW'">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="A-Feeling x Saucony ProGrid Paramount Science of WOW" src="assets/images/products/saucony-progrid-paramount/1.png" />
+              </a>
+              <div class="product-card-content p-6">
                 <div class="mb-2 flex items-start justify-between gap-4">
                   <h4 class="font-headline-md text-card-heading uppercase">A-Feeling x Saucony ProGrid Paramount 'Science of WOW'</h4>
                   <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">Used</span>
                 </div>
                 <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: 11 | Cond: 9.5/10</p>
-                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                <div class="product-card-footer flex items-center justify-between border-t border-surface-variant pt-4">
                   <p class="font-data-mono text-lg text-primary">$695.00</p>
                   <a href="product.html?id=p8" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
                 </div>
               </div>
             </article>
-            <article data-category="apparel" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
-              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
-                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Godspeed F.T.D Hoodie Black Wash" src="Godspeed F.T.D Hoodie 'Black Wash'.png" />
-              </div>
-              <div class="p-6">
+            <article data-category="apparel" class="product-card border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <a href="product.html?id=p6" class="relative block aspect-[4/5] overflow-hidden bg-surface p-6" aria-label="View Godspeed F.T.D Hoodie 'Black Wash'">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Godspeed F.T.D Hoodie Black Wash" src="assets/images/products/godspeed-hoodie-black-wash/1.png" />
+              </a>
+              <div class="product-card-content p-6">
                 <div class="mb-2 flex items-start justify-between gap-4">
                   <h4 class="font-headline-md text-card-heading uppercase">Godspeed F.T.D Hoodie 'Black Wash'</h4>
                   <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
                 </div>
                 <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: XL | Cond: 10/10</p>
-                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                <div class="product-card-footer flex items-center justify-between border-t border-surface-variant pt-4">
                   <p class="font-data-mono text-lg text-primary">$295.00</p>
                   <a href="product.html?id=p6" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
                 </div>
               </div>
             </article>
-            <article data-category="sneakers" class="border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
-              <div class="aspect-[4/5] overflow-hidden bg-surface p-6">
-                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Nike Wmns Total 90 SE Black White" src="Nike Wmns Total 90 SE 'Black White'.png" />
-              </div>
-              <div class="p-6">
+            <article data-category="sneakers" class="product-card border border-[#333] bg-background transition-all duration-200 hover:border-[#2f2fe4]">
+              <a href="product.html?id=p7" class="relative block aspect-[4/5] overflow-hidden bg-surface p-6" aria-label="View Terraform 02 Sneaker">
+                <img class="h-full w-full object-contain object-center transition-transform duration-700 hover:scale-[1.03]" alt="Nike Wmns Total 90 SE Black White" src="assets/images/products/vault-terraform-02/1.png" />
+              </a>
+              <div class="product-card-content p-6">
                 <div class="mb-2 flex items-start justify-between gap-4">
                   <h4 class="font-headline-md text-card-heading uppercase">Nike Wmns Total 90 SE 'Black White'</h4>
                   <span class="border border-surface-variant bg-surface-variant px-2 py-1 font-label-caps text-[10px] uppercase tracking-[0.24em] text-on-surface">New</span>
                 </div>
                 <p class="mb-4 font-label-caps text-[11px] uppercase tracking-[0.24em] text-secondary">Size: 10 | Cond: 10/10</p>
-                <div class="flex items-center justify-between border-t border-surface-variant pt-4">
+                <div class="product-card-footer flex items-center justify-between border-t border-surface-variant pt-4">
                   <p class="font-data-mono text-lg text-primary">$540.00</p>
                   <a href="product.html?id=p7" class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</a>
                 </div>
@@ -489,8 +517,8 @@
           <h2 class="font-headline-lg text-section-heading uppercase leading-none">Secure access to the vault</h2>
           <p class="mx-auto mt-6 max-w-2xl text-body text-secondary">Be the first to know about exclusive drops, auctions, and market alerts.</p>
           <div class="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
-            <input class="input-shell flex-1 px-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Enter your email" type="email" />
-            <button class="h-12 bg-primary-container px-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-white transition-opacity duration-200 hover:opacity-90" type="button">Subscribe</button>
+            <input id="newsletter-email-input" class="input-shell flex-1 px-4 font-data-mono text-xs tracking-[0.16em]" placeholder="Enter your email" type="email" />
+            <button id="newsletter-submit-button" class="h-12 bg-primary-container px-6 font-label-caps text-[11px] uppercase tracking-[0.24em] text-white transition-opacity duration-200 hover:opacity-90" type="button">Subscribe</button>
           </div>
         </div>
       </section>
@@ -499,7 +527,7 @@
     <footer class="border-t border-surface-variant bg-surface-container-lowest px-4 py-20 sm:px-6 md:px-8 lg:px-10">
       <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
         <div class="md:col-span-4">
-          <img alt="VAULT" class="mb-8 h-12 w-auto" src="./VAULT.png" />
+          <img alt="VAULT" class="mb-8 h-12 w-auto" src="./assets/images/logo/vault-logo.png" />
           <p class="max-w-xs text-body text-secondary">The ultimate platform for luxury streetwear and high-end sneaker trading. Authenticated by experts. Secured by the vault.</p>
         </div>
         <div class="md:col-span-2">
@@ -538,26 +566,31 @@
           <a class="transition-colors hover:text-primary" href="#">Discord</a>
         </div>
       </div>
+      <div class="mx-auto mt-8 flex max-w-7xl justify-center border-t border-surface-variant pt-8">
+        <a href="../index.html#archive" class="inline-flex items-center gap-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary">&larr; Back to portfolio archive</a>
+      </div>
     </footer>
 
     <nav class="fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-around border-t border-surface-variant bg-background/90 backdrop-blur-md md:hidden">
-      <button class="flex flex-col items-center justify-center text-primary" type="button">
+      <button class="flex flex-col items-center justify-center text-primary" type="button" onclick="window.location.href='index.html'">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
       </button>
-      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+      <button class="flex flex-col items-center justify-center text-secondary" type="button" onclick="window.location.href='listings.html'">
         <span class="material-symbols-outlined">search</span>
       </button>
-      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+      <button class="flex flex-col items-center justify-center text-secondary" type="button" onclick="window.location.href='cart.html'">
         <span class="material-symbols-outlined">local_mall</span>
       </button>
-      <button class="flex flex-col items-center justify-center text-secondary" type="button">
+      <button class="flex flex-col items-center justify-center text-secondary" type="button" onclick="window.location.href='auth.html'">
         <span class="material-symbols-outlined">person</span>
       </button>
     </nav>
 
 <script src="./store.js"></script>
     <script>
-      const deadline = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000 + 22 * 60 * 60 * 1000 + 51 * 60 * 1000);
+      // Fixed target so the countdown actually counts down across visits,
+      // rather than resetting to "4d 22h 51m" every time the page loads.
+      const deadline = new Date('2026-08-03T18:00:00Z');
 
       function updateCountdown() {
         const diff = deadline - Date.now();
@@ -608,6 +641,42 @@
         }
         if (profileButton) {
           profileButton.addEventListener('click', () => window.location.href = 'auth.html');
+        }
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        if (mobileMenuButton && mobileNavMenu) {
+          mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileNavMenu.classList.toggle('flex');
+            mobileNavMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+          });
+        }
+
+        // Header search: hand off to the listings page, which does the actual filtering.
+        const homeSearchInput = document.getElementById('home-search-input');
+        if (homeSearchInput) {
+          homeSearchInput.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            const query = homeSearchInput.value.trim();
+            window.location.href = query ? `listings.html?q=${encodeURIComponent(query)}` : 'listings.html';
+          });
+        }
+
+        // Newsletter signup (front-end only demo — no email backend).
+        const newsletterInput = document.getElementById('newsletter-email-input');
+        const newsletterButton = document.getElementById('newsletter-submit-button');
+        if (newsletterButton && newsletterInput) {
+          newsletterButton.addEventListener('click', () => {
+            const email = newsletterInput.value.trim();
+            const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!isValidEmail) {
+              showStyledToast('Enter a valid email address.', 'error');
+              return;
+            }
+            newsletterInput.value = '';
+            showStyledToast("You're on the list — watch your inbox for drop alerts.", 'success');
+          });
         }
 
         // New listings category filters
@@ -715,6 +784,105 @@
         }
 
         if (placeBidButton) placeBidButton.addEventListener('click', showBidModal);
+
+        // Angle gallery (shared lightbox, reused per product)
+        function createAngleGallery(productName, images) {
+          let index = 0;
+
+          function render() {
+            const img = document.getElementById('angle-gallery-image');
+            if (!img) return;
+            const current = images[index];
+            img.src = current.src;
+            img.alt = productName + ' — ' + current.label + ' view';
+            const label = document.getElementById('angle-gallery-label');
+            const counter = document.getElementById('angle-gallery-counter');
+            if (label) label.textContent = current.label;
+            if (counter) counter.textContent = (index + 1) + ' / ' + images.length;
+          }
+
+          function open(startIndex) {
+            index = startIndex || 0;
+            const existing = document.getElementById('angle-gallery-overlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.id = 'angle-gallery-overlay';
+            overlay.className = 'fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm';
+            overlay.innerHTML = `
+              <button id="angle-gallery-close" type="button" aria-label="Close" class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:right-8 md:top-8">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+              <button id="angle-gallery-prev" type="button" aria-label="Previous view" class="absolute left-2 flex h-12 w-12 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:left-8">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <div class="flex w-full max-w-xl flex-col items-center">
+                <div class="neo-border flex aspect-square w-full items-center justify-center bg-surface-container-low p-8 md:p-12">
+                  <img id="angle-gallery-image" class="max-h-full max-w-full object-contain" src="" alt="" />
+                </div>
+                <div class="mt-4 flex items-center gap-3 font-data-mono text-xs uppercase tracking-[0.2em] text-secondary">
+                  <span id="angle-gallery-label"></span>
+                  <span>&mdash;</span>
+                  <span id="angle-gallery-counter"></span>
+                </div>
+              </div>
+              <button id="angle-gallery-next" type="button" aria-label="Next view" class="absolute right-2 flex h-12 w-12 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:right-8">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </button>
+            `;
+            document.body.appendChild(overlay);
+            render();
+
+            const step = (direction) => {
+              index = (index + direction + images.length) % images.length;
+              render();
+            };
+            const onKeydown = (e) => {
+              if (e.key === 'Escape') cleanup();
+              if (e.key === 'ArrowRight') step(1);
+              if (e.key === 'ArrowLeft') step(-1);
+            };
+            function cleanup() {
+              overlay.remove();
+              document.removeEventListener('keydown', onKeydown);
+            }
+
+            overlay.querySelector('#angle-gallery-close').addEventListener('click', cleanup);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) cleanup(); });
+            overlay.querySelector('#angle-gallery-prev').addEventListener('click', () => step(-1));
+            overlay.querySelector('#angle-gallery-next').addEventListener('click', () => step(1));
+            document.addEventListener('keydown', onKeydown);
+          }
+
+          return { open };
+        }
+
+        const heroGallery = createAngleGallery("Air Jordan 7 Retro 'Miro' 2026", [
+          { src: 'assets/images/products/air-jordan-7-miro/front.png', label: 'Front' },
+          { src: 'assets/images/products/air-jordan-7-miro/side-lateral.png', label: 'Side (Lateral)' },
+          { src: 'assets/images/products/air-jordan-7-miro/side-medial.png', label: 'Side (Medial)' },
+          { src: 'assets/images/products/air-jordan-7-miro/back.png', label: 'Back' },
+          { src: 'assets/images/products/air-jordan-7-miro/sole.png', label: 'Sole' }
+        ]);
+        const heroShoeTrigger = document.getElementById('hero-shoe-trigger');
+        if (heroShoeTrigger) heroShoeTrigger.addEventListener('click', () => heroGallery.open(0));
+
+        document.querySelectorAll('article').forEach((card) => {
+          if (card.querySelector('a')) card.style.cursor = 'pointer';
+        });
+      });
+
+      // Make entire product cards clickable, not just "View drop".
+      // Delegated on document (rather than per-card listeners) so it keeps working
+      // no matter how the page was re-shown (back button, bfcache restore, logo link, etc).
+      // Reads whatever the card's own link href is rather than matching a literal
+      // "product.html" string, since hosts like Netlify can rewrite/clean-url that path.
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        const card = e.target.closest('article');
+        if (!card) return;
+        const link = card.querySelector('a');
+        if (link) window.location.href = link.getAttribute('href');
       });
     </script>
   </body>

@@ -50,8 +50,7 @@
         font-family: 'Designer';
         src: local('Designer'),
              local('Designer Regular'),
-             url('./Designer.otf') format('opentype'),
-             url('./Designer (3).otf') format('opentype');
+             url('./assets/fonts/Designer.otf') format('opentype');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -60,7 +59,7 @@
         font-family: 'Aero Matics';
         src: local('Aero Matics Light Italic'),
              local('Aero Matics Light'),
-             url('./Aero Matics Light Italic.ttf') format('truetype');
+             url('./assets/fonts/AeroMaticsLightItalic.ttf') format('truetype');
         font-weight: 300;
         font-style: italic;
         font-display: swap;
@@ -97,7 +96,7 @@
       }
       .filter-pill.active {
         background: #2f2fe4;
-        color: #000;
+        color: #fff;
         border-color: #2f2fe4;
       }
       .sort-button {
@@ -110,13 +109,14 @@
       }
       .sort-button.active {
         background: #2f2fe4;
-        color: #000;
+        color: #fff;
         border-color: #2f2fe4;
       }
       .product-card {
         display: flex;
         flex-direction: column;
         height: 100%;
+        cursor: pointer;
       }
       .product-card-content {
         display: flex;
@@ -130,8 +130,8 @@
   </head>
   <body>
     <header class="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/95 px-4 backdrop-blur-xl md:px-16 lg:px-20">
-      <a href="code.html" class="site-logo w-16 h-16">
-        <img src="./VAULT.png" alt="Vault logo" />
+      <a href="index.html" class="site-logo w-16 h-16">
+        <img src="./assets/images/logo/vault-logo.png" alt="Vault logo" />
       </a>
       <nav class="hidden items-center gap-6 md:flex">
         <a class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
@@ -147,8 +147,17 @@
         <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
           <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
         </button>
+        <button id="mobile-menu-button" class="flex items-center justify-center text-on-surface-variant md:hidden" type="button" aria-label="Open menu" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
     </header>
+
+    <div id="mobile-nav-menu" class="fixed left-0 top-20 z-40 hidden w-full flex-col gap-1 border-b border-surface-variant bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="listings.html">Marketplace</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="about.html">About</a>
+    </div>
 
     <main class="pt-28 px-4 pb-20 sm:px-6 md:px-8 lg:px-10">
       <div class="mx-auto max-w-7xl">
@@ -274,6 +283,11 @@
           });
         });
 
+        const initialQuery = getQueryParam('q');
+        if (initialQuery) {
+          document.getElementById('search-input').value = initialQuery;
+        }
+
         document.getElementById('search-input').addEventListener('input', refreshListings);
         updateActiveSortButton(localStorage.getItem('vaultSort') || 'price-asc');
         refreshListings();
@@ -281,9 +295,11 @@
         document.body.addEventListener('click', (event) => {
           const addButton = event.target.closest('[data-product-id]');
           if (!addButton) return;
+          // No size/color selection exists on the grid card, so route to the
+          // product page — size and color must be chosen there before adding.
+          event.stopPropagation();
           const productId = addButton.dataset.productId;
-          vaultStore.addToCart(productId);
-          updateCartBadge();
+          window.location.href = `product.html?id=${productId}`;
         });
 
         document.getElementById('cart-button').addEventListener('click', () => {
@@ -292,6 +308,27 @@
 
         document.getElementById('profile-button').addEventListener('click', () => {
           window.location.href = 'auth.html';
+        });
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        if (mobileMenuButton && mobileNavMenu) {
+          mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileNavMenu.classList.toggle('flex');
+            mobileNavMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+          });
+        }
+
+        // Make entire product cards clickable, not just the image/brand link.
+        // Reads whatever the card's own link href is rather than matching a literal
+        // "product.html" string, since hosts like Netlify can rewrite/clean-url that path.
+        document.getElementById('product-grid').addEventListener('click', (event) => {
+          if (event.target.closest('a') || event.target.closest('button')) return;
+          const card = event.target.closest('.product-card');
+          if (!card) return;
+          const link = card.querySelector('a');
+          if (link) window.location.href = link.getAttribute('href');
         });
       });
     </script>

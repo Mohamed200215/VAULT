@@ -49,8 +49,7 @@
         font-family: 'Designer';
         src: local('Designer'),
              local('Designer Regular'),
-             url('./Designer.otf') format('opentype'),
-             url('./Designer (3).otf') format('opentype');
+             url('./assets/fonts/Designer.otf') format('opentype');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -59,7 +58,7 @@
         font-family: 'Aero Matics';
         src: local('Aero Matics Light Italic'),
              local('Aero Matics Light'),
-             url('./Aero Matics Light Italic.ttf') format('truetype');
+             url('./assets/fonts/AeroMaticsLightItalic.ttf') format('truetype');
         font-weight: 300;
         font-style: italic;
         font-display: swap;
@@ -104,12 +103,26 @@
         border-color: #2f2fe4 !important;
       }
       #size-options button, #color-options button { cursor: pointer; }
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+        cursor: pointer;
+      }
+      .product-card-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+      }
+      .product-card-footer {
+        margin-top: auto;
+      }
     </style>
   </head>
   <body>
     <header class="fixed top-0 left-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/95 px-4 backdrop-blur-xl md:px-16 lg:px-20">
-      <a href="code.html" class="site-logo w-16 h-16">
-        <img src="./VAULT.png" alt="Vault logo" />
+      <a href="index.html" class="site-logo w-16 h-16">
+        <img src="./assets/images/logo/vault-logo.png" alt="Vault logo" />
       </a>
       <div class="flex items-center gap-4 md:gap-6">
         <button id="cart-button" class="relative flex items-center text-on-surface-variant transition-colors duration-200 hover:text-primary" type="button" aria-label="Open cart">
@@ -123,11 +136,19 @@
     </header>
     <main class="pt-28 px-4 pb-20 sm:px-6 md:px-8 lg:px-10">
       <div class="mx-auto max-w-7xl">
+        <a href="listings.html" class="mb-8 inline-flex items-center gap-2 font-label-caps text-[11px] uppercase tracking-[0.24em] text-on-surface-variant transition-colors duration-200 hover:text-primary">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          Back to listings
+        </a>
         <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div class="rounded-[2rem] border border-[#333] bg-surface p-6 lg:p-10">
             <div class="grid gap-6 lg:grid-cols-2">
-              <div class="overflow-hidden rounded-[1.75rem] bg-[#0f0f17] p-6 flex items-center justify-center">
-                <img id="product-image" class="max-h-full max-w-full object-contain" src="" alt="Product image" />
+              <div id="product-image-frame" class="group relative aspect-square overflow-hidden rounded-[1.75rem] bg-surface-container p-10 flex items-center justify-center">
+                <img id="product-image" class="max-h-full max-w-full object-contain transition-transform duration-300" src="" alt="Product image" />
+                <span id="product-image-hint" class="hidden absolute bottom-4 right-4 items-center gap-2 border border-[#333] bg-background/80 px-3 py-1.5 font-label-caps text-[10px] uppercase tracking-[0.2em] text-secondary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <span class="material-symbols-outlined text-sm">visibility</span>
+                  View all angles
+                </span>
               </div>
               <div class="flex flex-col justify-between gap-6">
                 <div>
@@ -161,18 +182,114 @@
             </div>
           </aside>
         </div>
+
+        <section class="mt-20 border-t border-surface-variant pt-16">
+          <h2 class="font-headline-lg text-2xl uppercase tracking-[-0.02em] text-white">You may also like</h2>
+          <div id="related-products-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+        </section>
       </div>
     </main>
     <footer class="border-t border-surface-variant bg-surface-container-lowest px-4 py-10 sm:px-6 md:px-8 lg:px-10">
       <div class="mx-auto flex max-w-7xl flex-col gap-6 text-center text-[10px] font-data-mono uppercase tracking-[0.24em] text-secondary md:flex-row md:justify-between md:text-left">
         <span>© 2024 Vault Worldwide. All rights reserved.</span>
-        <span>Product detail page powered by local Vault store data.</span>
       </div>
     </footer>
     <script src="store.js"></script>
     <script>
       function getQueryParam(name) {
         return new URLSearchParams(window.location.search).get(name);
+      }
+
+      function createAngleGallery(productName, images) {
+        let index = 0;
+
+        function render() {
+          const img = document.getElementById('angle-gallery-image');
+          if (!img) return;
+          const current = images[index];
+          img.src = current.src;
+          img.alt = productName + ' — ' + current.label + ' view';
+          const label = document.getElementById('angle-gallery-label');
+          const counter = document.getElementById('angle-gallery-counter');
+          if (label) label.textContent = current.label;
+          if (counter) counter.textContent = (index + 1) + ' / ' + images.length;
+        }
+
+        function open(startIndex) {
+          index = startIndex || 0;
+          const existing = document.getElementById('angle-gallery-overlay');
+          if (existing) existing.remove();
+
+          const overlay = document.createElement('div');
+          overlay.id = 'angle-gallery-overlay';
+          overlay.className = 'fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm';
+          overlay.innerHTML = `
+            <button id="angle-gallery-close" type="button" aria-label="Close" class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:right-8 md:top-8">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+            <button id="angle-gallery-prev" type="button" aria-label="Previous view" class="absolute left-2 flex h-12 w-12 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:left-8">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <div class="flex w-full max-w-xl flex-col items-center">
+              <div class="rounded-[1.75rem] border border-[#333] flex aspect-square w-full items-center justify-center bg-surface-container p-8 md:p-12">
+                <img id="angle-gallery-image" class="max-h-full max-w-full object-contain" src="" alt="" />
+              </div>
+              <div class="mt-4 flex items-center gap-3 font-data-mono text-xs uppercase tracking-[0.2em] text-secondary">
+                <span id="angle-gallery-label"></span>
+                <span>&mdash;</span>
+                <span id="angle-gallery-counter"></span>
+              </div>
+            </div>
+            <button id="angle-gallery-next" type="button" aria-label="Next view" class="absolute right-2 flex h-12 w-12 items-center justify-center border border-[#333] bg-background/80 text-white transition-colors duration-200 hover:border-primary md:right-8">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          `;
+          document.body.appendChild(overlay);
+          render();
+
+          const step = (direction) => {
+            index = (index + direction + images.length) % images.length;
+            render();
+          };
+          const onKeydown = (e) => {
+            if (e.key === 'Escape') cleanup();
+            if (e.key === 'ArrowRight') step(1);
+            if (e.key === 'ArrowLeft') step(-1);
+          };
+          function cleanup() {
+            overlay.remove();
+            document.removeEventListener('keydown', onKeydown);
+          }
+
+          overlay.querySelector('#angle-gallery-close').addEventListener('click', cleanup);
+          overlay.addEventListener('click', (e) => { if (e.target === overlay) cleanup(); });
+          overlay.querySelector('#angle-gallery-prev').addEventListener('click', () => step(-1));
+          overlay.querySelector('#angle-gallery-next').addEventListener('click', () => step(1));
+          document.addEventListener('keydown', onKeydown);
+        }
+
+        return { open };
+      }
+
+      function setupProductImageGallery(product) {
+        const frame = document.getElementById('product-image-frame');
+        const hint = document.getElementById('product-image-hint');
+        if (!frame) return;
+        if (!product.images || product.images.length < 2) return;
+
+        const gallery = createAngleGallery(product.name, product.images);
+        frame.classList.add('cursor-pointer');
+        frame.setAttribute('role', 'button');
+        frame.setAttribute('tabindex', '0');
+        frame.setAttribute('aria-label', 'View ' + product.name + ' from all angles');
+        if (hint) hint.classList.replace('hidden', 'flex');
+        frame.addEventListener('click', () => gallery.open(0));
+        frame.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            gallery.open(0);
+          }
+        });
       }
 
       function createOptionButton(value, label) {
@@ -192,7 +309,7 @@
         document.getElementById('color-options').innerHTML = product.colors.map((color) => createOptionButton(color, color)).join('');
       }
 
-      function showToast(html) {
+      function showToast(html, isError) {
         const existing = document.getElementById('vault-toast');
         if (existing) existing.remove();
         const toast = document.createElement('div');
@@ -203,8 +320,10 @@
           right: '20px',
           top: '20px',
           zIndex: 9999,
-          background: 'linear-gradient(135deg, rgba(47,47,228,0.95), rgba(192,193,255,0.95))',
-          color: '#000',
+          background: isError
+            ? 'linear-gradient(135deg, rgba(220,38,38,0.95), rgba(248,113,113,0.95))'
+            : 'linear-gradient(135deg, rgba(47,47,228,0.95), rgba(192,193,255,0.95))',
+          color: isError ? '#fff' : '#000',
           padding: '12px 16px',
           borderRadius: '12px',
           boxShadow: '0 8px 30px rgba(0,0,0,0.45)',
@@ -224,6 +343,63 @@
         }, 2400);
       }
 
+      function flagMissingSelection(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.style.outline = '2px solid #dc2626';
+        container.style.outlineOffset = '6px';
+        container.style.borderRadius = '1rem';
+        container.style.transition = 'outline-color 300ms ease';
+        setTimeout(() => { container.style.outline = 'none'; }, 2000);
+      }
+
+      function validateSelection() {
+        const selectedSize = document.querySelector('#size-options .option-selected')?.dataset.value || '';
+        const selectedColor = document.querySelector('#color-options .option-selected')?.dataset.value || '';
+        const missing = [];
+        if (!selectedSize) missing.push('size');
+        if (!selectedColor) missing.push('color');
+
+        if (missing.length) {
+          if (!selectedSize) flagMissingSelection('size-options');
+          if (!selectedColor) flagMissingSelection('color-options');
+          showToast(
+            `<div><div style="font-weight:700">Select a ${missing.join(' and ')} first</div><div style="font-size:13px">Choose both a size and a colorway before continuing.</div></div>`,
+            true
+          );
+          return null;
+        }
+
+        return { selectedSize, selectedColor };
+      }
+
+      function createRelatedCard(product) {
+        return `
+          <a href="product.html?id=${product.id}" class="product-card overflow-hidden rounded-3xl border border-[#333] bg-surface transition duration-200 hover:border-[#2f2fe4]">
+            <div class="aspect-square overflow-hidden bg-surface-container p-8">
+              <img class="h-full w-full object-contain object-center" src="${product.image}" alt="${product.name}" />
+            </div>
+            <div class="product-card-content p-6">
+              <p class="text-[11px] uppercase tracking-[0.24em] text-secondary">${product.brand}</p>
+              <h3 class="mt-2 font-headline-md text-lg uppercase leading-tight text-white">${product.name}</h3>
+              <div class="product-card-footer mt-4 flex items-center justify-between border-t border-surface-variant pt-4">
+                <span class="font-data-mono text-sm text-primary">${formatPrice(product.price)}</span>
+                <span class="font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary">View drop</span>
+              </div>
+            </div>
+          </a>
+        `;
+      }
+
+      function renderRelatedProducts(product) {
+        const grid = document.getElementById('related-products-grid');
+        const related = vaultStore
+          .getProducts({ category: product.category })
+          .filter((p) => p.id !== product.id)
+          .slice(0, 4);
+        grid.innerHTML = related.map(createRelatedCard).join('');
+      }
+
       function selectOption(containerId, button) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -241,6 +417,8 @@
         }
 
         renderProduct(product);
+        renderRelatedProducts(product);
+        setupProductImageGallery(product);
 
         const sizeContainer = document.getElementById('size-options');
         const colorContainer = document.getElementById('color-options');
@@ -262,8 +440,9 @@
         }
 
         document.getElementById('add-to-cart-button').addEventListener('click', () => {
-          const selectedSize = document.querySelector('#size-options .option-selected')?.dataset.value || '';
-          const selectedColor = document.querySelector('#color-options .option-selected')?.dataset.value || '';
+          const selection = validateSelection();
+          if (!selection) return;
+          const { selectedSize, selectedColor } = selection;
           vaultStore.addToCart(product.id);
           updateCartBadge();
           const toastHtml = `
@@ -271,15 +450,16 @@
             <div>
               <div style="font-weight:700">Added to cart</div>
               <div style="font-size:13px">${product.name}</div>
-              <div style="font-size:12px;opacity:0.9">${selectedSize ? 'Size: ' + selectedSize : ''} ${selectedColor ? ' • Color: ' + selectedColor : ''}</div>
+              <div style="font-size:12px;opacity:0.9">Size: ${selectedSize} • Color: ${selectedColor}</div>
             </div>
           `;
           showToast(toastHtml);
         });
 
         document.getElementById('buy-now-button').addEventListener('click', () => {
-          const selectedSize = document.querySelector('#size-options .option-selected')?.dataset.value || '';
-          const selectedColor = document.querySelector('#color-options .option-selected')?.dataset.value || '';
+          const selection = validateSelection();
+          if (!selection) return;
+          const { selectedSize, selectedColor } = selection;
           vaultStore.addToCart(product.id);
           updateCartBadge();
           const toastHtml = `
@@ -287,7 +467,7 @@
             <div>
               <div style="font-weight:700">Ready to buy</div>
               <div style="font-size:13px">${product.name}</div>
-              <div style="font-size:12px;opacity:0.9">${selectedSize ? 'Size: ' + selectedSize : ''} ${selectedColor ? ' • Color: ' + selectedColor : ''}</div>
+              <div style="font-size:12px;opacity:0.9">Size: ${selectedSize} • Color: ${selectedColor}</div>
             </div>
           `;
           showToast(toastHtml);

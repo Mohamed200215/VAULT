@@ -41,8 +41,7 @@
         font-family: 'Designer';
         src: local('Designer'),
              local('Designer Regular'),
-             url('./Designer.otf') format('opentype'),
-             url('./Designer (3).otf') format('opentype');
+             url('./assets/fonts/Designer.otf') format('opentype');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -51,7 +50,7 @@
         font-family: 'Aero Matics';
         src: local('Aero Matics Light Italic'),
              local('Aero Matics Light'),
-             url('./Aero Matics Light Italic.ttf') format('truetype');
+             url('./assets/fonts/AeroMaticsLightItalic.ttf') format('truetype');
         font-weight: 300;
         font-style: italic;
         font-display: swap;
@@ -125,8 +124,8 @@
   <body class="overflow-x-hidden">
     <header class="fixed top-0 z-50 flex h-20 w-full items-center justify-between border-b border-surface-variant bg-background/80 px-4 backdrop-blur-xl md:px-16 lg:px-20">
       <div class="flex items-center gap-6 md:gap-8">
-        <a href="./code.html" class="site-logo">
-          <img src="./VAULT.png" alt="Vault logo" />
+        <a href="index.html" class="site-logo">
+          <img src="./assets/images/logo/vault-logo.png" alt="Vault logo" />
         </a>
         <nav class="hidden gap-6 md:flex">
           <a class="nav-link font-label-caps text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
@@ -150,8 +149,17 @@
         <button id="profile-button" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-primary-container" type="button" aria-label="Open sign in">
           <span class="material-symbols-outlined text-sm text-white" style="font-variation-settings: 'FILL' 1;">person</span>
         </button>
+        <button id="mobile-menu-button" class="flex items-center justify-center text-on-surface-variant md:hidden" type="button" aria-label="Open menu" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
     </header>
+
+    <div id="mobile-nav-menu" class="fixed left-0 top-20 z-40 hidden w-full flex-col gap-1 border-b border-surface-variant bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-primary" href="listings.html?view=latest">Latest drops</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="listings.html">Marketplace</a>
+      <a class="font-label-caps py-3 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant" href="about.html">About</a>
+    </div>
 
     <main class="relative pt-28">
       <div class="hero-glow"></div>
@@ -328,7 +336,7 @@
         <p class="text-sm uppercase tracking-[0.28em] text-primary">Vault</p>
         <p class="mt-4 text-base leading-7 text-on-surface-variant">High-end sneaker marketplace with authenticated drops, transparent pricing, and secure fulfillment.</p>
         <div class="mt-8 flex flex-wrap justify-center gap-6 text-[11px] uppercase tracking-[0.24em] text-on-surface-variant">
-          <a href="./code.html" class="transition hover:text-white">Home</a>
+          <a href="./index.html" class="transition hover:text-white">Home</a>
           <a href="./about.html" class="text-white">How it works</a>
           <a href="#authenticity" class="transition hover:text-white">Authentication</a>
           <a href="#market" class="transition hover:text-white">Market</a>
@@ -352,6 +360,16 @@
         if (profileButton) {
           profileButton.addEventListener('click', () => {
             window.location.href = 'auth.html';
+          });
+        }
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        if (mobileMenuButton && mobileNavMenu) {
+          mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileNavMenu.classList.toggle('flex');
+            mobileNavMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
           });
         }
       });
