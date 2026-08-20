@@ -176,7 +176,7 @@
             </div>
                 <div class="rounded-[2rem] border border-[#333] bg-surface p-6">
               <div class="flex gap-3">
-                <button id="add-to-cart-button" class="flex-1 inline-flex h-14 items-center justify-center rounded-full bg-primary text-black transition hover:bg-[#a5a7ff]">Add to cart</button>
+                <div id="add-to-cart-mount" class="contents"></div>
                 <button id="buy-now-button" class="flex-1 inline-flex h-14 items-center justify-center rounded-full border border-primary text-primary transition hover:bg-primary hover:text-black">Buy now</button>
               </div>
             </div>
@@ -195,6 +195,7 @@
       </div>
     </footer>
     <script type="module" src="/src/entries/legacy.ts"></script>
+    <script type="module" src="/src/entries/product.tsx"></script>
     <script>
       function getQueryParam(name) {
         return new URLSearchParams(window.location.search).get(name);
@@ -292,10 +293,6 @@
         });
       }
 
-      function createOptionButton(value, label) {
-        return `<button data-value="${value}" class="rounded-full border border-surface-variant bg-background/80 px-4 py-2 text-sm uppercase tracking-[0.18em] text-on-surface transition duration-200 hover:border-[#2f2fe4]">${label}</button>`;
-      }
-
       function renderProduct(product) {
         document.getElementById('product-image').src = product.image;
         document.getElementById('product-image').alt = product.name;
@@ -304,9 +301,6 @@
         document.getElementById('product-badge').textContent = product.badge;
         document.getElementById('product-price').textContent = formatPrice(product.price);
         document.getElementById('product-description').textContent = product.description;
-
-        document.getElementById('size-options').innerHTML = product.sizes.map((size) => createOptionButton(size, size)).join('');
-        document.getElementById('color-options').innerHTML = product.colors.map((color) => createOptionButton(color, color)).join('');
       }
 
       function showToast(html, isError) {
@@ -400,14 +394,6 @@
         grid.innerHTML = related.map(createRelatedCard).join('');
       }
 
-      function selectOption(containerId, button) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        const buttons = container.querySelectorAll('button');
-        buttons.forEach((b) => b.classList.remove('option-selected'));
-        button.classList.add('option-selected');
-      }
-
       document.addEventListener('DOMContentLoaded', () => {
         const productId = getQueryParam('id');
         const product = vaultStore.getProduct(productId);
@@ -419,42 +405,6 @@
         renderProduct(product);
         renderRelatedProducts(product);
         setupProductImageGallery(product);
-
-        const sizeContainer = document.getElementById('size-options');
-        const colorContainer = document.getElementById('color-options');
-
-        if (sizeContainer) {
-          sizeContainer.addEventListener('click', (e) => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
-            selectOption('size-options', btn);
-          });
-        }
-
-        if (colorContainer) {
-          colorContainer.addEventListener('click', (e) => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
-            selectOption('color-options', btn);
-          });
-        }
-
-        document.getElementById('add-to-cart-button').addEventListener('click', () => {
-          const selection = validateSelection();
-          if (!selection) return;
-          const { selectedSize, selectedColor } = selection;
-          vaultStore.addToCart(product.id);
-          updateCartBadge();
-          const toastHtml = `
-            <img src="${product.image}" alt="${product.name}" />
-            <div>
-              <div style="font-weight:700">Added to cart</div>
-              <div style="font-size:13px">${product.name}</div>
-              <div style="font-size:12px;opacity:0.9">Size: ${selectedSize} • Color: ${selectedColor}</div>
-            </div>
-          `;
-          showToast(toastHtml);
-        });
 
         document.getElementById('buy-now-button').addEventListener('click', () => {
           const selection = validateSelection();
