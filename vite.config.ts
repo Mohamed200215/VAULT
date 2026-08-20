@@ -8,6 +8,10 @@ import { fileURLToPath } from 'node:url';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const assetsDir = path.join(root, 'assets');
 
+// GitHub Pages serves this project page at /VAULT/, not the domain root — without this,
+// Vite's own hashed asset/script URLs resolve to the wrong path in production.
+const base = '/VAULT/';
+
 function copyDirRecursive(src: string, dest: string) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
@@ -32,8 +36,10 @@ function vaultAssetsPassthrough(): Plugin {
     name: 'vault-assets-passthrough',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        if (!req.url || !req.url.startsWith('/assets/')) return next();
-        const requestPath = decodeURIComponent(req.url.split('?')[0] ?? '');
+        const url = req.url ?? '';
+        const unprefixed = url.startsWith(base) ? url.slice(base.length - 1) : url;
+        if (!unprefixed.startsWith('/assets/')) return next();
+        const requestPath = decodeURIComponent(unprefixed.split('?')[0] ?? '');
         const filePath = path.join(root, requestPath);
         if (!filePath.startsWith(assetsDir) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
           return next();
@@ -49,6 +55,7 @@ function vaultAssetsPassthrough(): Plugin {
 
 export default defineConfig({
   root,
+  base,
   plugins: [react(), vaultAssetsPassthrough()],
   build: {
     outDir: 'dist',
